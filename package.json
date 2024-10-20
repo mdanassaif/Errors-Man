@@ -10,6 +10,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@multiavatar/multiavatar": "^1.0.7",
     "@supabase/supabase-js": "^2.45.6",
     "lucide-react": "^0.453.0",
     "react": "^18.3.1",
