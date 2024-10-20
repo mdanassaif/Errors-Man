@@ -4,6 +4,7 @@ import { supabase } from './lib/supabase';
 import { LandingPage } from './components/LandingPage';
 import { QuestionForm } from './components/QuestionForm';
 import { QuestionList } from './components/QuestionList';
+import { generateAvatar } from './utils/avatar';
 
 export default function ErrorsManPlatform() {
   const [showLanding, setShowLanding] = useState(true);
@@ -72,15 +73,33 @@ export default function ErrorsManPlatform() {
     }
   };
 
+  const handleUserSubmit = async (name) => {
+    const avatarUrl = generateAvatar(name);
+    setUsername(name);
+    setShowLanding(false);
+
+    try {
+      const { error } = await supabase
+        .from('users')
+        .upsert({ username: name, avatar_url: avatarUrl }, { onConflict: 'username' });
+
+      if (error) throw error;
+    } catch (err) {
+      setError(err.message);
+    }
+  };
+
   const handleAddQuestion = async () => {
     if (newQuestion.title.trim() && newQuestion.content.trim()) {
       try {
+        const avatarUrl = generateAvatar(username);
         const { error } = await supabase
           .from('questions')
           .insert([{
             title: newQuestion.title,
             content: newQuestion.content,
-            user_id: username
+            user_id: username,
+            avatar_url: avatarUrl
           }]);
 
         if (error) throw error;
@@ -94,12 +113,14 @@ export default function ErrorsManPlatform() {
   const handleAddAnswer = async (questionId) => {
     if (newAnswer.content.trim()) {
       try {
+        const avatarUrl = generateAvatar(username);
         const { error } = await supabase
           .from('answers')
           .insert([{
             question_id: questionId,
             content: newAnswer.content,
-            user_id: username
+            user_id: username,
+            avatar_url: avatarUrl
           }]);
 
         if (error) throw error;
@@ -111,10 +132,7 @@ export default function ErrorsManPlatform() {
   };
 
   if (showLanding) {
-    return <LandingPage onUserSubmit={(name) => {
-      setUsername(name);
-      setShowLanding(false);
-    }} />;
+    return <LandingPage onUserSubmit={handleUserSubmit} />;
   }
 
   if (loading) {
@@ -127,7 +145,7 @@ export default function ErrorsManPlatform() {
 
   return (
     <div className="min-h-screen bg-gray-100 p-4">
-      <header className="bg-blue-600 text-white p-4 rounded-lg mb-4">
+      <header className="bg-white shadow-md text-black p-4 rounded-lg mb-10">
         <div className="flex justify-between items-center">
           <h1 className="text-2xl font-bold">Errors Man</h1>
           <div className="flex items-center gap-2">
