@@ -1,3 +1,4 @@
+// QuestionList.js
 import { MessageCircle } from 'lucide-react';
 import PropTypes from 'prop-types';
 
@@ -90,8 +91,6 @@ export function QuestionList({
                     <div className="text-sm text-gray-600">
                       {answer.user_id} • {new Date(answer.created_at).toLocaleString()}
                     </div>
-                  
-
                   </div>
                   <p className="text-gray-800">{answer.content}</p>
                 </div>
