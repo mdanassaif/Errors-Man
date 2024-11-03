@@ -1,14 +1,9 @@
 import { useState } from 'react';
-import { Code, Users } from 'lucide-react';
+import { Code, Users, ArrowRight } from 'lucide-react';
 import { supabase } from '../lib/supabase';
 import PropTypes from 'prop-types';
 import Logo from '../../error.jpeg';
-import { motion } from 'framer-motion';
 import ErrorBoundary from './ErrorBoundary.jsx';
-
-LandingPage.propTypes = {
-  onUserSubmit: PropTypes.func.isRequired,
-};
 
 export function LandingPage({ onUserSubmit }) {
   const [username, setUsername] = useState('');
@@ -17,7 +12,9 @@ export function LandingPage({ onUserSubmit }) {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!username.trim()) {
+    const trimmedUsername = username.trim();
+
+    if (!trimmedUsername) {
       setError('Please enter a username');
       return;
     }
@@ -26,11 +23,10 @@ export function LandingPage({ onUserSubmit }) {
     try {
       const { error: dbError } = await supabase
         .from('users')
-        .insert([{ username: username.trim() }]);
+        .insert([{ username: trimmedUsername }]);
 
       if (dbError) throw dbError;
-
-      onUserSubmit(username);
+      onUserSubmit(trimmedUsername);
     } catch (err) {
       setError(err.message);
     } finally {
@@ -40,98 +36,114 @@ export function LandingPage({ onUserSubmit }) {
 
   return (
     <ErrorBoundary>
-      <div className="min-h-screen flex flex-col md:flex-row font-sans">
-        <motion.div
-          initial={{ opacity: 0, x: -50 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ duration: 0.5 }}
-          className="w-full md:w-1/2 bg-white flex flex-col min-h-[50vh] md:min-h-screen"
-        >
-          <main className="flex-grow flex items-center justify-center p-8">
-            <div className="max-w-md w-full">
-              <h1 className="text-4xl sm:text-6xl font-extrabold text-black-900 mb-6 tracking-tight">
-                About <span className="bg-clip-text text-transparent bg-gradient-to-r from-slate-300 to-slate-700 flex items-center">
+      <div className="min-h-screen flex flex-col lg:flex-row">
+        {/* Left Section - About */}
+        <div className="w-full lg:w-1/2 bg-gradient-to-b from-white to-gray-50 p-6 md:p-12 lg:p-16">
+          <div className="max-w-xl mx-auto">
+            <div className="mb-12">
+              <div className="flex items-center gap-3 mb-8">
+                <img
+                  src={Logo}
+                  alt="ErrorsMan Logo"
+                  className="h-12 w-12 md:h-16 md:w-16 rounded-lg shadow-lg transform hover:scale-105 transition-transform"
+                />
+                <h1 className="text-3xl md:text-5xl font-bold text-gray-800">
                   ErrorsMan
-                  <motion.img
-                    whileHover={{ scale: 1.1 }}
-                    src={Logo}
-                    alt="ErrorsMan Logo"
-                    className="h-14 w-auto ml-2"
-                  />
-                </span>
-              </h1>
-              <p className="text-black-600 mb-8 text-lg leading-relaxed">
-                ErrorsMan is a community-driven platform where developers come together to solve errors,
-                share knowledge, and support each other in their coding journey.
+                </h1>
+              </div>
+
+              <p className="text-lg md:text-xl text-gray-600 leading-relaxed mb-8">
+                Your go-to platform for debugging solutions and coding knowledge. Join our community of developers helping each other succeed.
               </p>
-              <div
-               
-                className="space-y-6"
-              >
-                <div
-                   
-                  className="flex items-center space-x-4 text-black-600 bg-gray-100 p-4 rounded-lg transition-all duration-300 hover:bg-gray-200"
-                >
-                  <Code className="w-8 h-8 text-gray-500" aria-hidden="true" />
-                  <span className="text-lg">Find solutions to common coding errors</span>
+
+              <div className="space-y-4 md:space-y-6">
+                <div className="flex items-center gap-4 p-5 bg-white rounded-xl shadow-sm hover:shadow-md transition-shadow border border-gray-100">
+                  <div className="p-3 bg-blue-50 rounded-lg">
+                    <Code className="w-6 h-6 text-blue-600" />
+                  </div>
+                  <div>
+                    <h3 className="font-semibold text-gray-800 mb-1">Quick Solutions</h3>
+                    <p className="text-gray-600">Find answers to your coding errors instantly</p>
+                  </div>
                 </div>
-                <div
-                   
-                  className="flex items-center space-x-4 text-black-600 bg-gray-100 p-4 rounded-lg transition-all duration-300 hover:bg-gray-200"
-                >
-                  <Users className="w-8 h-8 text-gray-500" aria-hidden="true" />
-                  <span className="text-lg">Connect with a supportive developer community</span>
+
+                <div className="flex items-center gap-4 p-5 bg-white rounded-xl shadow-sm hover:shadow-md transition-shadow border border-gray-100">
+                  <div className="p-3 bg-green-50 rounded-lg">
+                    <Users className="w-6 h-6 text-green-600" />
+                  </div>
+                  <div>
+                    <h3 className="font-semibold text-gray-800 mb-1">Community Support</h3>
+                    <p className="text-gray-600">Connect with experienced developers</p>
+                  </div>
                 </div>
+
+
               </div>
             </div>
-          </main>
-        </motion.div>
+          </div>
+        </div>
 
-        <div
-          
-          className="w-full md:w-1/2 bg-gradient-to-br from-gray-800 to-gray-900 flex flex-col min-h-[50vh] md:min-h-screen"
-        >
-          <main className="flex-grow flex items-center justify-center p-8">
-            <div className="w-full max-w-md space-y-8">
+        {/* Right Section - Sign Up */}
+        <div className="w-full lg:w-1/2 bg-gradient-to-br from-gray-900 to-gray-800 p-6 md:p-12 lg:p-16 flex items-center justify-center">
+          <div className="w-full max-w-md">
+            <div className="bg-white/10 backdrop-blur-lg rounded-2xl p-8 shadow-xl">
+              <h2 className="text-2xl md:text-3xl font-bold text-white mb-6">
+                Start Your Journey
+              </h2>
+
               <form onSubmit={handleSubmit} className="space-y-6">
                 <div>
-                  <label htmlFor="username" className="sr-only">Username</label>
+                  <label htmlFor="username" className="block text-sm font-medium text-gray-200 mb-2">
+                    Username
+                  </label>
                   <input
                     id="username"
                     type="text"
                     placeholder="Enter your username"
-                    className="appearance-none rounded-lg relative block w-full px-4 py-3 border border-gray-600 bg-gray-300 placeholder-gray-500 text-gray-800 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-300 text-lg"
+                    className="w-full px-4 py-3 rounded-lg bg-white/20 text-white placeholder-gray-400 border border-gray-600 focus:border-blue-500 focus:ring-2 focus:ring-blue-500 transition-all"
                     value={username}
                     onChange={(e) => setUsername(e.target.value)}
                     disabled={loading}
-                    aria-invalid={error ? "true" : "false"}
-                    aria-describedby={error ? "username-error" : undefined}
                   />
-                  {error && <p id="username-error" className="text-red-400 text-sm mt-2" role="alert">{error}</p>}
+                  {error && (
+                    <p className="text-red-400 text-sm mt-2 bg-red-400/10 p-2 rounded-lg">
+                      {error}
+                    </p>
+                  )}
                 </div>
 
                 <button
-               
                   type="submit"
-                  className="w-full flex justify-center py-3 px-4 border border-transparent rounded-lg text-lg font-medium text-white bg-gradient-to-b from-slate-500 to-slate-800 hover:from-slate-400 hover:to-slate-600 focus:ring-slate-500 transition-all duration-300 disabled:opacity-50"
                   disabled={loading}
-                  aria-label={loading ? "Loading" : "Start Solving"}
+                  className="w-full flex items-center justify-center gap-2 py-3 px-4 rounded-lg bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-500 hover:to-blue-600 text-white font-medium transition-all disabled:opacity-50"
                 >
-                  {loading ? 'Loading...' : 'Start Solving'}
+                  {loading ? (
+                    'Processing...'
+                  ) : (
+                    <>
+                      Get Started
+                      <ArrowRight className="w-5 h-5" />
+                    </>
+                  )}
                 </button>
               </form>
-              <p className="text-center text-gray-400 mt-4">
-                By joining, you agree to our Terms of Service and Privacy Policy.
+
+              <p className="text-gray-400 text-sm text-center mt-8">
+                By joining, you agree to our{' '}
+                <a href="#" className="text-blue-400 hover:underline">Terms</a>
+                {' '}and{' '}
+                <a href="#" className="text-blue-400 hover:underline">Privacy Policy</a>
               </p>
             </div>
-          </main>
+
+
+          </div>
         </div>
       </div>
     </ErrorBoundary>
   );
 }
 
- 
-
-
- 
+LandingPage.propTypes = {
+  onUserSubmit: PropTypes.func.isRequired,
+};
