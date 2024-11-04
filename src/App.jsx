@@ -187,19 +187,25 @@ export default function ErrorsManPlatform() {
 
   return (
     <div className="min-h-screen bg-gray-100">
- 
-      {/* Header */}
-      <header className="bg-white shadow-sm p-4  top-0 z-10">
-        <div className="max-w-7xl mx-auto flex justify-between items-center">
-          <h1 className="text-2xl font-bold text-gray-900">ErrorsMan</h1>
-          <div className="flex items-center gap-4">
+      {/* Responsive Header */}
+      <header className="bg-white shadow-sm p-4 sticky top-0 z-10">
+        <div className="max-w-7xl mx-auto flex flex-col sm:flex-row justify-between items-center gap-4">
+          <div className="flex items-center justify-between w-full sm:w-auto">
+            <h1 className="text-2xl font-bold text-gray-900">ErrorsMan</h1>
+            {/* Menu button for mobile */}
+            <button className="sm:hidden text-gray-600 hover:text-gray-900">
+              <Terminal className="w-5 h-5" />
+            </button>
+          </div>
+          
+          <div className="flex flex-col sm:flex-row items-center gap-4 w-full sm:w-auto">
             <div className="flex items-center gap-2 text-gray-600">
               <Clock className="w-5 h-5" />
               <span>{currentTime.toLocaleTimeString()}</span>
             </div>
             <button
               onClick={() => setShowQuestionForm(!showQuestionForm)}
-              className="flex items-center gap-2 px-4 py-2 bg-yellow-700 text-white rounded-lg hover:bg-yellow-900"
+              className="flex items-center gap-2 px-4 py-2 bg-yellow-700 text-white rounded-lg hover:bg-yellow-900 w-full sm:w-auto justify-center"
             >
               {showQuestionForm ? <X className="w-5 h-5" /> : <Plus className="w-5 h-5" />}
               {showQuestionForm ? 'Close' : 'Ask'}
@@ -215,48 +221,51 @@ export default function ErrorsManPlatform() {
         </div>
       </header>
 
-
-      <main className="max-w-8xl mx-auto p-6">
-        <div className="flex gap-6">
-          {/* Main Content */}
-          <div className="flex-1 space-y-6">
-            {error && (
-              <div className="bg-red-50 text-red-500 p-4 rounded-lg flex justify-between items-center">
-                {error}
-                <button onClick={() => setError(null)}>
-                  <X className="w-5 h-5" />
-                </button>
-              </div>
-            )}
-
-            {showQuestionForm && (
-              <QuestionForm
-                newQuestion={newQuestion}
-                setNewQuestion={setNewQuestion}
-                onSubmit={handleAddQuestion}
-              />
-            )}
-
-            <QuestionList
-              questions={questions}
-              selectedQuestion={selectedQuestion}
-              setSelectedQuestion={setSelectedQuestion}
-              newAnswer={newAnswer}
-              setNewAnswer={setNewAnswer}
-              onAnswerSubmit={handleAddAnswer}
-              
-            />
-          </div>
-
-          {/* Right Sidebar */}
-          <div className="hidden lg:block w-80">
-            <div className=" top-24">
-              <Advertisement />
-              {/* Add more sidebar content here */}
-            </div>
+      {/* Main content with responsive layout */}
+      <div className="flex h-[calc(100vh-5rem)]"> {/* Subtract header height */}
+        {/* Left Sidebar - Hidden on mobile */}
+        <div className="hidden md:block w-60 bg-white p-4 overflow-y-auto border-r">
+          <div className="space-y-4">
+            <p className="text-sm">
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+            </p>
           </div>
         </div>
-      </main>
+
+        {/* Middle Content - Full width on mobile */}
+        <div className="flex-1 overflow-y-auto p-4 sm:p-6">
+          {error && (
+            <div className="bg-red-50 text-red-500 p-4 rounded-lg flex justify-between items-center">
+              {error}
+              <button onClick={() => setError(null)}>
+                <X className="w-5 h-5" />
+              </button>
+            </div>
+          )}
+
+          {showQuestionForm && (
+            <QuestionForm
+              newQuestion={newQuestion}
+              setNewQuestion={setNewQuestion}
+              onSubmit={handleAddQuestion}
+            />
+          )}
+
+          <QuestionList
+            questions={questions}
+            selectedQuestion={selectedQuestion}
+            setSelectedQuestion={setSelectedQuestion}
+            newAnswer={newAnswer}
+            setNewAnswer={setNewAnswer}
+            onAnswerSubmit={handleAddAnswer}
+          />
+        </div>
+
+        {/* Right Sidebar - Hidden on mobile */}
+        <div className="hidden lg:block w-80 bg-white p-4 overflow-y-auto border-l">
+          <Advertisement />
+        </div>
+      </div>
 
       <UserModal
         isOpen={isUserModalOpen}
@@ -265,5 +274,5 @@ export default function ErrorsManPlatform() {
         avatarUrl={generateAvatar(username)}
       />
     </div>
-  );
+)
 }
