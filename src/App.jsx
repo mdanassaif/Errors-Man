@@ -1,10 +1,11 @@
-// ErrorsManPlatform.js
 import { useState, useEffect } from 'react';
-import { Terminal, Plus, X } from 'lucide-react';
+import { Terminal, Plus, X, Clock } from 'lucide-react';
 import { supabase } from './lib/supabase';
 import { LandingPage } from './components/LandingPage';
 import { QuestionForm } from './components/QuestionForm';
 import { QuestionList } from './components/QuestionList';
+import { UserModal } from './components/Usermodal';
+import { Advertisement } from './components/Advertisement';
 import { generateAvatar } from './utils/avatar';
 
 export default function ErrorsManPlatform() {
@@ -22,6 +23,16 @@ export default function ErrorsManPlatform() {
   const [newAnswer, setNewAnswer] = useState({ questionId: null, content: '' });
   const [selectedQuestion, setSelectedQuestion] = useState(null);
   const [error, setError] = useState(null);
+  const [isUserModalOpen, setIsUserModalOpen] = useState(false);
+  const [currentTime, setCurrentTime] = useState(new Date());
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setCurrentTime(new Date());
+    }, 1000);
+
+    return () => clearInterval(timer);
+  }, []);
 
   useEffect(() => {
     const storedUsername = localStorage.getItem('username');
@@ -168,6 +179,7 @@ export default function ErrorsManPlatform() {
       setError(err.message);
     }
   };
+ 
 
   if (showLanding) {
     return <LandingPage onUserSubmit={handleUserSubmit} />;
@@ -175,11 +187,16 @@ export default function ErrorsManPlatform() {
 
   return (
     <div className="min-h-screen bg-gray-100">
+ 
       {/* Header */}
-      <header className="bg-white shadow-sm p-4 sticky top-0 z-10">
-        <div className="max-w-6xl mx-auto flex justify-between items-center">
+      <header className="bg-white shadow-sm p-4  top-0 z-10">
+        <div className="max-w-7xl mx-auto flex justify-between items-center">
           <h1 className="text-2xl font-bold text-gray-900">ErrorsMan</h1>
           <div className="flex items-center gap-4">
+            <div className="flex items-center gap-2 text-gray-600">
+              <Clock className="w-5 h-5" />
+              <span>{currentTime.toLocaleTimeString()}</span>
+            </div>
             <button
               onClick={() => setShowQuestionForm(!showQuestionForm)}
               className="flex items-center gap-2 px-4 py-2 bg-yellow-700 text-white rounded-lg hover:bg-yellow-900"
@@ -187,44 +204,66 @@ export default function ErrorsManPlatform() {
               {showQuestionForm ? <X className="w-5 h-5" /> : <Plus className="w-5 h-5" />}
               {showQuestionForm ? 'Close' : 'Ask'}
             </button>
-            <div className="flex items-center gap-2 text-gray-600">
+            <button
+              onClick={() => setIsUserModalOpen(true)}
+              className="flex items-center gap-2 text-gray-600 hover:text-gray-900"
+            >
               <Terminal className="w-5 h-5" />
               <span>{username}</span>
-            </div>
+            </button>
           </div>
         </div>
       </header>
 
-      <main className="max-w-6xl mx-auto p-6 space-y-6">
-        {/* Error Display */}
-        {error && (
-          <div className="bg-red-50 text-red-500 p-4 rounded-lg flex justify-between items-center">
-            {error}
-            <button onClick={() => setError(null)}>
-              <X className="w-5 h-5" />
-            </button>
+
+      <main className="max-w-8xl mx-auto p-6">
+        <div className="flex gap-6">
+          {/* Main Content */}
+          <div className="flex-1 space-y-6">
+            {error && (
+              <div className="bg-red-50 text-red-500 p-4 rounded-lg flex justify-between items-center">
+                {error}
+                <button onClick={() => setError(null)}>
+                  <X className="w-5 h-5" />
+                </button>
+              </div>
+            )}
+
+            {showQuestionForm && (
+              <QuestionForm
+                newQuestion={newQuestion}
+                setNewQuestion={setNewQuestion}
+                onSubmit={handleAddQuestion}
+              />
+            )}
+
+            <QuestionList
+              questions={questions}
+              selectedQuestion={selectedQuestion}
+              setSelectedQuestion={setSelectedQuestion}
+              newAnswer={newAnswer}
+              setNewAnswer={setNewAnswer}
+              onAnswerSubmit={handleAddAnswer}
+              
+            />
           </div>
-        )}
 
-        {/* Question Form */}
-        {showQuestionForm && (
-          <QuestionForm
-            newQuestion={newQuestion}
-            setNewQuestion={setNewQuestion}
-            onSubmit={handleAddQuestion}
-          />
-        )}
-
-        {/* Questions List */}
-        <QuestionList
-          questions={questions}
-          selectedQuestion={selectedQuestion}
-          setSelectedQuestion={setSelectedQuestion}
-          newAnswer={newAnswer}
-          setNewAnswer={setNewAnswer}
-          onAnswerSubmit={handleAddAnswer}
-        />
+          {/* Right Sidebar */}
+          <div className="hidden lg:block w-80">
+            <div className=" top-24">
+              <Advertisement />
+              {/* Add more sidebar content here */}
+            </div>
+          </div>
+        </div>
       </main>
+
+      <UserModal
+        isOpen={isUserModalOpen}
+        onClose={() => setIsUserModalOpen(false)}
+        username={username}
+        avatarUrl={generateAvatar(username)}
+      />
     </div>
   );
 }
