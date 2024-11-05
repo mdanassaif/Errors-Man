@@ -1,11 +1,10 @@
- 
+// LandingPage.jsx
 import { useState, useCallback } from 'react';
 import { Code, Users, ArrowRight, Shield, BookOpen } from 'lucide-react';
 import { supabase } from '../lib/supabase';
 import PropTypes from 'prop-types';
 import Logo from '../../error.jpeg';
 import ErrorBoundary from './ErrorBoundary.jsx';
-// import bcrypt from 'bcryptjs';
 
 const FEATURES = [
   {
@@ -38,7 +37,6 @@ const FEATURES = [
   }
 ];
 
-// eslint-disable-next-line react/prop-types
 const FeatureCard = ({ icon: Icon, title, description, bgColor, iconColor }) => (
   <div className="flex items-center gap-4 p-5 bg-white rounded-xl shadow-sm hover:shadow-md transition-all duration-300 border border-gray-100">
     <div className={`p-3 ${bgColor} rounded-lg`}>
@@ -54,7 +52,8 @@ const FeatureCard = ({ icon: Icon, title, description, bgColor, iconColor }) => 
 export function LandingPage({ onUserSubmit }) {
   const [formData, setFormData] = useState({
     username: '',
-    password: '' // Added password field
+    password: '',
+    about: ''
   });
   const [isExistingUser, setIsExistingUser] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -69,7 +68,7 @@ export function LandingPage({ onUserSubmit }) {
   const checkExistingUser = async (username) => {
     const { data, error } = await supabase
       .from('users')
-      .select('username, password')
+      .select('username, password, about')
       .eq('username', username)
       .single();
     
@@ -82,8 +81,9 @@ export function LandingPage({ onUserSubmit }) {
     const trimmedUsername = formData.username.trim();
     const password = formData.password;
 
-    if (!trimmedUsername || !password) {
-      setError('Please fill in all fields');
+    // Validate required fields based on whether it's a new user or existing user
+    if (!trimmedUsername || !password || (!isExistingUser && !formData.about.trim())) {
+      setError('Please fill in all required fields');
       return;
     }
 
@@ -116,7 +116,8 @@ export function LandingPage({ onUserSubmit }) {
           .from('users')
           .insert([{ 
             username: trimmedUsername,
-            password: password, // Store password in your existing users table
+            password: password,
+            about: formData.about.trim()
           }]);
 
         if (insertError) throw insertError;
@@ -132,7 +133,6 @@ export function LandingPage({ onUserSubmit }) {
   return (
     <ErrorBoundary>
       <div className="min-h-screen flex flex-col lg:flex-row">
-    
         {/* Left Section - About */}
         <div className="w-full lg:w-1/2 bg-gradient-to-b from-white to-gray-50 p-6 md:p-12 lg:p-16">
           <div className="max-w-xl mx-auto">
@@ -141,7 +141,7 @@ export function LandingPage({ onUserSubmit }) {
                 <img
                   src={Logo}
                   alt="ErrorsMan Logo"
-                  className="h-12 w-12 md:h-16 md:w-16 rounded-lg  transform group-hover:scale-110 transition-transform duration-300"
+                  className="h-12 w-12 md:h-16 md:w-16 rounded-lg transform group-hover:scale-110 transition-transform duration-300"
                 />
                 <h1 className="text-3xl md:text-5xl font-bold text-gray-800 group-hover:text-blue-600 transition-colors">
                   ErrorsMan
@@ -161,7 +161,7 @@ export function LandingPage({ onUserSubmit }) {
           </div>
         </div>
 
-        {/* Right Section - Sign Up */}
+        {/* Right Section - Sign Up/Login */}
         <div className="w-full lg:w-1/2 bg-gradient-to-br from-gray-900 to-gray-800 p-6 md:p-12 lg:p-16 flex items-center justify-center">
           <div className="w-full max-w-md">
             <div className="bg-white/10 backdrop-blur-lg rounded-2xl p-8 shadow-xl">
@@ -202,6 +202,33 @@ export function LandingPage({ onUserSubmit }) {
                       disabled={loading}
                     />
                   </div>
+
+                  {/* Only show about field for new users */}
+                  {!isExistingUser && (
+                    <div>
+                      <label htmlFor="about" className="block text-sm font-medium text-gray-200 mb-2">
+                        About (10 words max)
+                      </label>
+                      <input
+                        id="about"
+                        name="about"
+                        type="text"
+                        placeholder="Brief description about yourself"
+                        className="w-full px-4 py-3 rounded-lg bg-white/20 text-white placeholder-gray-400 border border-gray-600 focus:border-blue-500 focus:ring-2 focus:ring-blue-500 transition-all"
+                        value={formData.about}
+                        onChange={(e) => {
+                          const words = e.target.value.trim().split(/\s+/);
+                          if (words.length <= 10) {
+                            handleChange(e);
+                          }
+                        }}
+                        disabled={loading}
+                      />
+                      <span className="text-xs text-gray-400 mt-1">
+                        {formData.about.trim().split(/\s+/).length}/10 words
+                      </span>
+                    </div>
+                  )}
                 </div>
 
                 {error && (
@@ -236,7 +263,8 @@ export function LandingPage({ onUserSubmit }) {
                       setFormData(prev => ({
                         ...prev,
                         username: '',
-                        password: ''
+                        password: '',
+                        about: ''
                       }));
                       setError('');
                     }}
@@ -267,4 +295,12 @@ export function LandingPage({ onUserSubmit }) {
 
 LandingPage.propTypes = {
   onUserSubmit: PropTypes.func.isRequired,
+};
+
+FeatureCard.propTypes = {
+  icon: PropTypes.elementType.isRequired,
+  title: PropTypes.string.isRequired,
+  description: PropTypes.string.isRequired,
+  bgColor: PropTypes.string.isRequired,
+  iconColor: PropTypes.string.isRequired,
 };

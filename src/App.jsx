@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Terminal, Plus, X, Clock } from 'lucide-react';
+import { Terminal, Plus, X } from 'lucide-react';
 import { supabase } from './lib/supabase';
 import { LandingPage } from './components/LandingPage';
 import { QuestionForm } from './components/QuestionForm';
@@ -7,6 +7,7 @@ import { QuestionList } from './components/QuestionList';
 import { UserModal } from './components/Usermodal';
 import { Advertisement } from './components/Advertisement';
 import { generateAvatar } from './utils/avatar';
+import Left from './components/left';
 
 export default function ErrorsManPlatform() {
   const [showLanding, setShowLanding] = useState(true);
@@ -24,6 +25,7 @@ export default function ErrorsManPlatform() {
   const [selectedQuestion, setSelectedQuestion] = useState(null);
   const [error, setError] = useState(null);
   const [isUserModalOpen, setIsUserModalOpen] = useState(false);
+  // eslint-disable-next-line no-unused-vars
   const [currentTime, setCurrentTime] = useState(new Date());
 
   useEffect(() => {
@@ -134,7 +136,6 @@ export default function ErrorsManPlatform() {
         content: newQuestion.content.trim(),
         user_id: username,
         avatar_url: avatarUrl,
-        // Always include code fields even if empty
         code: newQuestion.code.trim(),
         language: newQuestion.language,
         links: newQuestion.links
@@ -174,12 +175,11 @@ export default function ErrorsManPlatform() {
       if (dbError) throw dbError;
 
       setNewAnswer({ questionId: null, content: '' });
-      await fetchQuestions(); // Refresh questions list
+      await fetchQuestions();
     } catch (err) {
       setError(err.message);
     }
   };
- 
 
   if (showLanding) {
     return <LandingPage onUserSubmit={handleUserSubmit} />;
@@ -187,52 +187,67 @@ export default function ErrorsManPlatform() {
 
   return (
     <div className="min-h-screen bg-gray-100">
-      {/* Responsive Header */}
-      <header className="bg-white shadow-sm p-4 sticky top-0 z-10">
+      {/* Enhanced Header */}
+      {/* bg-gradient-to-r from-yellow-700 via-yellow-800 to-yellow-900  */}
+      <header className="text-white p-4 top-0 z-10 border-b-2 border-yellow-700">
         <div className="max-w-7xl mx-auto flex flex-col sm:flex-row justify-between items-center gap-4">
+          {/* Logo and Brand Section */}
           <div className="flex items-center justify-between w-full sm:w-auto">
-            <h1 className="text-2xl font-bold text-gray-900">ErrorsMan</h1>
-            {/* Menu button for mobile */}
-            <button className="sm:hidden text-gray-600 hover:text-gray-900">
+            <div className="flex items-center space-x-2">
+              <Terminal className="w-7 h-7 text-yellow-700" />
+              <div className="flex flex-col">
+                <h1 className="text-4xl font-bold tracking-tight text-yellow-800">ErrorsMan</h1>
+                <span className="text-xs text-yellow-900">Debug Together, Grow Together</span>
+              </div>
+            </div>
+            <button className="sm:hidden text-yellow-200 hover:text-yellow-100">
               <Terminal className="w-5 h-5" />
             </button>
           </div>
           
-          <div className="flex flex-col sm:flex-row items-center gap-4 w-full sm:w-auto">
-            <div className="flex items-center gap-2 text-gray-600">
-              <Clock className="w-5 h-5" />
-              <span>{currentTime.toLocaleTimeString()}</span>
-            </div>
+          {/* Actions Section */}
+          <div className="flex flex-row sm:flex-row items-center gap-4 w-full sm:w-auto">
             <button
               onClick={() => setShowQuestionForm(!showQuestionForm)}
-              className="flex items-center gap-2 px-4 py-2 bg-yellow-700 text-white rounded-lg hover:bg-yellow-900 w-full sm:w-auto justify-center"
+              className="flex items-center gap-2 px-6 py-2 bg-yellow-600 text-white rounded-full hover:bg-yellow-500 transition-all duration-300 w-full sm:w-auto justify-center  transform hover:-translate-y-0.5"
             >
-              {showQuestionForm ? <X className="w-5 h-5" /> : <Plus className="w-5 h-5" />}
-              {showQuestionForm ? 'Close' : 'Ask'}
+              {showQuestionForm ? (
+                <>
+                  <X className="w-5 h-5" />
+                  <span className="font-medium">Close</span>
+                </>
+              ) : (
+                <>
+                  <Plus className="w-5 h-5" />
+                  <span className="font-medium">Ask Question</span>
+                </>
+              )}
             </button>
+
+            {/* User Profile Button */}
             <button
               onClick={() => setIsUserModalOpen(true)}
-              className="flex items-center gap-2 text-gray-600 hover:text-gray-900"
+              className="flex items-center gap-2 px-4 py-2 bg-yellow-800/40 rounded-full hover:bg-yellow-800/60 transition-all duration-300"
             >
-              <Terminal className="w-5 h-5" />
-              <span>{username}</span>
+              <div className="w-8 h-8 rounded-full bg-yellow-200 flex items-center justify-center">
+                <span className="text-yellow-800 font-medium">
+                  {username.charAt(0).toUpperCase()}
+                </span>
+              </div>
+              <span className="font-medium">{username}</span>
             </button>
           </div>
         </div>
       </header>
 
-      {/* Main content with responsive layout */}
-      <div className="flex h-[calc(100vh-5rem)]"> {/* Subtract header height */}
-        {/* Left Sidebar - Hidden on mobile */}
-        <div className="hidden md:block w-60 bg-white p-4 overflow-y-auto border-r">
-          <div className="space-y-4">
-            <p className="text-sm">
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-            </p>
-          </div>
+      {/* Main Layout */}
+      <div className="flex h-[calc(100vh-5rem)]">
+        {/* Left Sidebar */}
+        <div className="hidden md:block w-80 bg-white p-4 overflow-y-auto border-r">
+          <Left/>
         </div>
 
-        {/* Middle Content - Full width on mobile */}
+        {/* Main Content */}
         <div className="flex-1 overflow-y-auto p-4 sm:p-6">
           {error && (
             <div className="bg-red-50 text-red-500 p-4 rounded-lg flex justify-between items-center">
@@ -261,12 +276,13 @@ export default function ErrorsManPlatform() {
           />
         </div>
 
-        {/* Right Sidebar - Hidden on mobile */}
-        <div className="hidden lg:block w-80 bg-white p-4 overflow-y-auto border-l">
+        {/* Right Sidebar */}
+        <div className="hidden lg:block w-100 bg-white p-4 overflow-y-auto border-l">
           <Advertisement />
         </div>
       </div>
 
+      {/* User Modal */}
       <UserModal
         isOpen={isUserModalOpen}
         onClose={() => setIsUserModalOpen(false)}
@@ -274,5 +290,5 @@ export default function ErrorsManPlatform() {
         avatarUrl={generateAvatar(username)}
       />
     </div>
-)
+  );
 }

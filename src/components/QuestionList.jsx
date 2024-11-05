@@ -2,6 +2,7 @@
 import { MessageCircle, Tag, CheckCircle } from 'lucide-react';
 import PropTypes from 'prop-types';
 import { TimeAgo } from './TimeAgo';
+import { supabase } from '../lib/supabase'; // Adjust the path as necessary
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { tomorrow } from 'react-syntax-highlighter/dist/esm/styles/prism';
 

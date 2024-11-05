@@ -13,6 +13,7 @@ export function UserModal({ isOpen, onClose, username, avatarUrl }) {
     questionCount: 0,
     answerCount: 0,
     joinDate: null,
+    about: '', // Add about field
     recentActivity: []
   });
 
@@ -55,15 +56,13 @@ export function UserModal({ isOpen, onClose, username, avatarUrl }) {
         .sort((a, b) => new Date(b.created_at) - new Date(a.created_at))
         .slice(0, 5);
 
-      setUserStats({
-        questionCount: questions?.length || 0,
-        answerCount: answers?.length || 0,
-        joinDate: userData?.created_at ? new Date(userData.created_at) : null,
-    
-       
-       
-        recentActivity
-      });
+        setUserStats({
+          questionCount: questions?.length || 0,
+          answerCount: answers?.length || 0,
+          joinDate: userData?.created_at ? new Date(userData.created_at) : null,
+          about: userData?.about || '', // Add about field
+          recentActivity
+        });
     } catch (error) {
       console.error('Error fetching user stats:', error);
     } finally {
@@ -97,10 +96,14 @@ export function UserModal({ isOpen, onClose, username, avatarUrl }) {
                 alt={`${username}'s avatar`}
                 className="w-24 h-24 rounded-full shadow-lg"
               />
-              <div>
-                <h3 className="text-2xl font-semibold text-gray-900">{username}</h3>
-                
-              </div>
+             <div>
+  <h3 className="text-2xl font-semibold text-gray-900">{username}</h3>
+  {userStats.about && (
+    <p className="text-gray-600 mt-1">{userStats.about}</p>
+  )}
+</div>
+
+              
             </div>
 
             {/* Stats Grid */}
@@ -119,8 +122,7 @@ export function UserModal({ isOpen, onClose, username, avatarUrl }) {
                 icon={<MessageCircle className="w-5 h-5 text-green-600" />}
                 label="Answers"
                 value={userStats.answerCount}
-              />
-              
+              />             
             </div>
 
           
