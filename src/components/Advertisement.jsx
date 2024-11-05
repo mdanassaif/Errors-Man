@@ -3,7 +3,7 @@ import { Twitter, Linkedin, Github, Youtube, Instagram } from 'lucide-react';
 
 export function Advertisement() {
   return (
-    <div className="bg-white rounded-lg shadow-md mb-6">
+    <div className="bg-white rounded-lg  mb-6">
       <h3 className="text-gray-900 pt-2 pl-2 text-lg font-bold mb-2">Sponsored</h3>
       <div className="rounded-lg p-4">
         <iframe
@@ -22,8 +22,8 @@ export function Advertisement() {
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
             {/* Twitter */}
-            
-          <a    href="https://twitter.com/mdanassaif"
+
+            <a href="https://twitter.com/mdanassaif"
               target="_blank"
               rel="noopener noreferrer"
               className="flex items-center gap-3 p-3 bg-blue-50 rounded-lg hover:bg-blue-100"
@@ -36,8 +36,8 @@ export function Advertisement() {
             </a>
 
             {/* LinkedIn */}
-            
-           <a   href="https://linkedin.com/in/mdanassaif"
+
+            <a href="https://linkedin.com/in/mdanassaif"
               target="_blank"
               rel="noopener noreferrer"
               className="flex items-center gap-3 p-3 bg-blue-50 rounded-lg hover:bg-blue-100"
@@ -50,8 +50,8 @@ export function Advertisement() {
             </a>
 
             {/* GitHub */}
-            
-           <a   href="https://github.com/mdanassaif"
+
+            <a href="https://github.com/mdanassaif"
               target="_blank"
               rel="noopener noreferrer"
               className="flex items-center gap-3 p-3 bg-gray-50 rounded-lg hover:bg-gray-100"
@@ -64,8 +64,8 @@ export function Advertisement() {
             </a>
 
             {/* Instagram */}
-            
-           <a   href="https://instagram.com/mdanassaif1"
+
+            <a href="https://instagram.com/mdanassaif1"
               target="_blank"
               rel="noopener noreferrer"
               className="flex items-center gap-3 p-3 bg-gray-50 rounded-lg hover:bg-gray-100"
@@ -96,8 +96,8 @@ export function Advertisement() {
 
           {/* Subscribe Button */}
           <div className="mt-4">
-            
-            <a  href="https://www.youtube.com/@mdanassaif"
+
+            <a href="https://www.youtube.com/@mdanassaif"
               target="_blank"
               rel="noopener noreferrer"
               className="inline-flex items-center gap-2 bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-red-700"

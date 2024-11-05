@@ -1,10 +1,13 @@
-// QuestionList.jsx
+ 
+  // QuestionList.jsx
 import { MessageCircle, Tag, CheckCircle } from 'lucide-react';
 import PropTypes from 'prop-types';
 import { TimeAgo } from './TimeAgo';
 import { supabase } from '../lib/supabase'; // Adjust the path as necessary
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { tomorrow } from 'react-syntax-highlighter/dist/esm/styles/prism';
+import { UserModal } from './UserModal'; // Import the UserModal component
+import { useState } from 'react';
 
 export function QuestionList({
   questions,
@@ -45,6 +48,20 @@ export function QuestionList({
     setNewAnswer: PropTypes.func.isRequired,
     onAnswerSubmit: PropTypes.func.isRequired,
     currentUser: PropTypes.string.isRequired
+  };
+
+  const [isUserModalOpen, setIsUserModalOpen] = useState(false);
+  const [selectedUserUsername, setSelectedUserUsername] = useState('');
+  const [selectedUserAvatarUrl, setSelectedUserAvatarUrl] = useState('');
+
+  const handleAvatarClick = (username, avatarUrl) => {
+    setSelectedUserUsername(username);
+    setSelectedUserAvatarUrl(avatarUrl);
+    setIsUserModalOpen(true);
+  };
+
+  const handleUserModalClose = () => {
+    setIsUserModalOpen(false);
   };
 
   const renderCode = (code, language) => {
@@ -94,7 +111,8 @@ export function QuestionList({
               <img
                 src={question.avatar_url}
                 alt={`${question.user_id}'s avatar`}
-                className="w-12 h-12 rounded-full"
+                className="w-12 h-12 rounded-full cursor-pointer"
+                onClick={() => handleAvatarClick(question.user_id, question.avatar_url)}
               />
               <div className="flex-1">
                 <h3 className="text-lg font-semibold text-gray-900">
@@ -232,6 +250,14 @@ export function QuestionList({
           )}
         </div>
       ))}
+
+      {/* Render the UserModal component */}
+      <UserModal
+        isOpen={isUserModalOpen}
+        onClose={handleUserModalClose}
+        username={selectedUserUsername}
+        avatarUrl={selectedUserAvatarUrl}
+      />
     </div>
   );
 }
