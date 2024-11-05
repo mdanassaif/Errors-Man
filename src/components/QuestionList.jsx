@@ -6,14 +6,14 @@ import { supabase } from '../lib/supabase'; // Adjust the path as necessary
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { tomorrow } from 'react-syntax-highlighter/dist/esm/styles/prism';
 
-export function QuestionList({ 
-  questions, 
-  selectedQuestion, 
-  setSelectedQuestion, 
-  newAnswer, 
-  setNewAnswer, 
+export function QuestionList({
+  questions,
+  selectedQuestion,
+  setSelectedQuestion,
+  newAnswer,
+  setNewAnswer,
   onAnswerSubmit,
-  currentUser 
+  currentUser
 }) {
   QuestionList.propTypes = {
     questions: PropTypes.arrayOf(PropTypes.shape({
@@ -79,23 +79,6 @@ export function QuestionList({
         .eq('question_id', questionId);
 
       if (error) throw error;
-      
-      // Update local state to reflect the change
-      // const updatedQuestions = questions.map(question => {
-      //   if (question.id === questionId) {
-      //     return {
-      //       ...question,
-      //       answers: question.answers.map(answer => ({
-      //         ...answer,
-      //         is_accepted: answer.id === answerId
-      //       }))
-      //     };
-      //   }
-      //   return question;
-      // });
-      
-      // // You'll need to implement this state update in your parent component
-      // onQuestionsUpdate(updatedQuestions);
     } catch (error) {
       console.error('Error accepting answer:', error);
     }
@@ -104,7 +87,7 @@ export function QuestionList({
   return (
     <div className="space-y-6">
       {questions.map((question) => (
-        <div key={question.id} className="bg-white rounded-lg shadow overflow-hidden">
+        <div key={question.id} className="bg-white rounded-lg shadow-md overflow-hidden">
           <div className="p-6">
             {/* Question Header */}
             <div className="flex items-center gap-4 mb-4">
@@ -114,13 +97,13 @@ export function QuestionList({
                 className="w-12 h-12 rounded-full"
               />
               <div className="flex-1">
-                <h3 className="text-xl font-semibold text-gray-900">
+                <h3 className="text-lg font-semibold text-gray-900">
                   {question.title}
                 </h3>
-                <div className="flex items-center gap-4 text-sm text-gray-500">
+                <div className="flex items-center gap-4 text-xs text-gray-500">
                   <span>{question.user_id}</span>
                   <span>|</span>
-                  <TimeAgo date={question.created_at} />
+                  <TimeAgo date={question.created_at} className="text-xs text-gray-500" />
                 </div>
               </div>
             </div>
@@ -131,7 +114,7 @@ export function QuestionList({
                 {question.tags.map((tag, index) => (
                   <span
                     key={index}
-                    className="px-3 py-1 bg-gray-100 text-gray-700 rounded-full text-sm flex items-center gap-1"
+                    className="px-3 py-1 bg-gray-100 text-gray-700 rounded-full text-xs flex items-center gap-1"
                   >
                     <Tag className="w-4 h-4" />
                     {tag}
@@ -141,8 +124,8 @@ export function QuestionList({
             )}
 
             {/* Question Content */}
-            <div className="prose max-w-none">
-              <p className="text-gray-700 whitespace-pre-wrap">
+            <div className="prose max-w-none text-sm text-gray-700">
+              <p className="whitespace-pre-wrap">
                 {question.content}
               </p>
 
@@ -152,15 +135,15 @@ export function QuestionList({
               {/* Links */}
               {question.links && question.links.length > 0 && (
                 <div className="mt-4 space-y-2">
-                  <h4 className="font-medium text-gray-900">Related Links:</h4>
+                  <h4 className="font-medium text-gray-900 text-sm">Related Links:</h4>
                   <ul className="space-y-1">
                     {question.links.map((link, index) => (
                       <li key={index}>
                         
-                     <a     href={link}
+                        <a  href={link}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="text-red-500 hover:text-red-600 break-all"
+                          className="text-red-500 hover:text-red-600 break-all text-sm"
                         >
                           {link}
                         </a>
@@ -177,7 +160,7 @@ export function QuestionList({
                 onClick={() => setSelectedQuestion(
                   selectedQuestion === question.id ? null : question.id
                 )}
-                className="flex items-center gap-2 text-blue-500 hover:text-blue-600"
+                className="flex items-center gap-2 text-blue-500 hover:text-blue-600 text-sm"
               >
                 <MessageCircle className="w-5 h-5" />
                 {question.answers?.length || 0} Answers
@@ -192,7 +175,7 @@ export function QuestionList({
               <div className="p-6 border-b">
                 <textarea
                   placeholder="Write your answer..."
-                  className="w-full p-4 rounded-lg bg-white border focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
+                  className="w-full p-4 rounded-lg bg-white border focus:border-blue-500 focus:ring-1 focus:ring-blue-500 text-sm"
                   rows="4"
                   value={newAnswer.questionId === question.id ? newAnswer.content : ''}
                   onChange={(e) => setNewAnswer({
@@ -203,7 +186,7 @@ export function QuestionList({
                 <div className="mt-4 flex justify-end">
                   <button
                     onClick={() => onAnswerSubmit(question.id)}
-                    className="px-6 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600"
+                    className="px-6 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 text-sm"
                   >
                     Post Answer
                   </button>
@@ -220,27 +203,27 @@ export function QuestionList({
                       className="w-10 h-10 rounded-full"
                     />
                     <div className="flex-1">
-                      <div className="font-medium text-gray-900">
+                      <div className="font-medium text-gray-900 text-sm">
                         {answer.user_id}
                       </div>
-                      <TimeAgo date={answer.created_at} />
+                      <TimeAgo date={answer.created_at} className="text-xs text-gray-500" />
                     </div>
                     {answer.is_accepted && (
-                      <div className="flex items-center gap-1 text-green-600">
+                      <div className="flex items-center gap-1 text-green-600 text-sm">
                         <CheckCircle className="w-5 h-5" />
-                        <span className="text-sm font-medium">Accepted Answer</span>
+                        <span className="font-medium">Accepted Answer</span>
                       </div>
                     )}
                     {question.user_id === currentUser && !answer.is_accepted && (
                       <button
                         onClick={() => handleAcceptAnswer(question.id, answer.id)}
-                        className="text-gray-500 hover:text-green-600"
+                        className="text-gray-500 hover:text-green-600 text-sm"
                       >
                         <CheckCircle className="w-5 h-5" />
                       </button>
                     )}
                   </div>
-                  <p className="text-gray-700 whitespace-pre-wrap">
+                  <p className="text-gray-700 whitespace-pre-wrap text-sm">
                     {answer.content}
                   </p>
                 </div>

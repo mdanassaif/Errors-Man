@@ -203,7 +203,7 @@ export function QuestionForm({ newQuestion, setNewQuestion, onSubmit }) {
         />
         <button
           type="submit"
-          className="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors"
+          className="px-4 py-2 bg-gradient-to-r from-yellow-500 to-yellow-600 text-white rounded-lg hover:bg-yellow-600 transition-colors"
         >
           Add
         </button>
@@ -243,7 +243,7 @@ export function QuestionForm({ newQuestion, setNewQuestion, onSubmit }) {
         </div>
       </div>
 
-      <div className="flex gap-4 mb-6">
+      <div className="flex gap-4 mb-6 ">
         <TabButton
           active={activeTab === 'details'}
           onClick={() => setActiveTab('details')}
@@ -278,7 +278,7 @@ export function QuestionForm({ newQuestion, setNewQuestion, onSubmit }) {
         <button
           onClick={handleSubmit}
           disabled={remainingQuestions <= 0}
-          className="px-6 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors disabled:bg-gray-400 disabled:cursor-not-allowed flex items-center gap-2"
+          className="px-6 py-2 bg-gradient-to-r from-yellow-500 to-yellow-600 text-white rounded-lg hover:bg-yellow-600 transition-colors disabled:bg-gray-400 disabled:cursor-not-allowed flex items-center gap-2"
         >
           <Send className="w-4 h-4" />
           Post Question
@@ -294,7 +294,7 @@ function TabButton({ active, onClick, icon, label }) {
       onClick={onClick}
       className={`flex items-center gap-2 px-4 py-2 rounded-lg transition-colors
         ${active
-          ? 'bg-blue-500 text-white'
+          ? 'bg-gradient-to-r from-yellow-500 to-yellow-600 text-white'
           : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
         }`}
     >

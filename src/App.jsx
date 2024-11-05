@@ -188,7 +188,6 @@ export default function ErrorsManPlatform() {
   return (
     <div className="min-h-screen bg-gray-100">
       {/* Enhanced Header */}
-      {/* bg-gradient-to-r from-yellow-700 via-yellow-800 to-yellow-900  */}
       <header className="text-white p-4 top-0 z-10 border-b-2 border-yellow-700">
         <div className="max-w-7xl mx-auto flex flex-col sm:flex-row justify-between items-center gap-4">
           {/* Logo and Brand Section */}
@@ -204,22 +203,22 @@ export default function ErrorsManPlatform() {
               <Terminal className="w-5 h-5" />
             </button>
           </div>
-          
+
           {/* Actions Section */}
           <div className="flex flex-row sm:flex-row items-center gap-4 w-full sm:w-auto">
             <button
               onClick={() => setShowQuestionForm(!showQuestionForm)}
-              className="flex items-center gap-2 px-6 py-2 bg-yellow-600 text-white rounded-full hover:bg-yellow-500 transition-all duration-300 w-full sm:w-auto justify-center  transform hover:-translate-y-0.5"
+              className="flex items-center gap-2 px-6 py-2 bg-gradient-to-r from-yellow-500 to-yellow-600 text-white rounded-full  transition-all duration-300 w-full sm:w-auto justify-center  transform hover:-translate-y-0.5"
             >
               {showQuestionForm ? (
                 <>
                   <X className="w-5 h-5" />
-                  <span className="font-medium">Close</span>
+                  <span className="text-sm font-medium">Close</span>
                 </>
               ) : (
                 <>
                   <Plus className="w-5 h-5" />
-                  <span className="font-medium">Ask Question</span>
+                  <span className="text-sm font-medium">Ask Question</span>
                 </>
               )}
             </button>
@@ -230,11 +229,11 @@ export default function ErrorsManPlatform() {
               className="flex items-center gap-2 px-4 py-2 bg-yellow-800/40 rounded-full hover:bg-yellow-800/60 transition-all duration-300"
             >
               <div className="w-8 h-8 rounded-full bg-yellow-200 flex items-center justify-center">
-                <span className="text-yellow-800 font-medium">
+                <span className="text-yellow-800 text-sm font-medium">
                   {username.charAt(0).toUpperCase()}
                 </span>
               </div>
-              <span className="font-medium">{username}</span>
+              <span className="text-sm font-medium">{username}</span>
             </button>
           </div>
         </div>
@@ -244,7 +243,7 @@ export default function ErrorsManPlatform() {
       <div className="flex h-[calc(100vh-5rem)]">
         {/* Left Sidebar */}
         <div className="hidden md:block w-80 bg-white p-4 overflow-y-auto border-r">
-          <Left/>
+          <Left />
         </div>
 
         {/* Main Content */}
@@ -273,6 +272,7 @@ export default function ErrorsManPlatform() {
             newAnswer={newAnswer}
             setNewAnswer={setNewAnswer}
             onAnswerSubmit={handleAddAnswer}
+            currentUser={username}
           />
         </div>
 

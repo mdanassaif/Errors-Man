@@ -1,8 +1,7 @@
 import { useState, useEffect } from 'react';
- 
 import { supabase } from '../lib/supabase';
-
 import { Trophy, Loader, X, Medal, Award, Star } from 'lucide-react';
+
 const Leaderboard = () => {
   const [leaderboard, setLeaderboard] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -80,8 +79,7 @@ const Leaderboard = () => {
   return (
     <div className="p-4 max-w-md mx-auto">
       <div className="text-center mb-8">
-        {/* <h2 className="text-2xl font-bold text-yellow-800">Community Champions</h2> */}
-        <p className="text-gray-600 mt-2">Top contributors making a difference</p>
+        <p className="text-gray-600 text-sm">Top contributors making a difference</p>
       </div>
 
       <div className="space-y-4">
@@ -94,37 +92,37 @@ const Leaderboard = () => {
                 index === 2 ? 'bg-gradient-to-r from-green-50 to-green-100 border-green-200' :
                 'bg-white border-blue-100'
               } 
-              p-4 rounded-xl shadow-sm border transition-all hover:shadow-md
+              p-4 rounded-xl  border transition-all 
             `}
           >
             <div className="flex justify-between items-center">
               <div className="flex items-center gap-3">
-                <div className="flex items-center justify-center w-8 h-8 rounded-full bg-white shadow-sm">
-                  <span className="font-bold text-gray-700">#{index + 1}</span>
+                <div className="flex items-center justify-center w-8 h-8 rounded-full bg-white ">
+                  <span className="font-bold text-gray-700 text-sm">#{index + 1}</span>
                 </div>
                 <div>
                   <div className="flex items-center gap-2">
-                    <span className="font-semibold text-gray-800">{user.username}</span>
+                    <span className="font-semibold text-gray-800 text-sm">{user.username}</span>
                     {getRankIcon(index)}
                   </div>
-                  <div className="text-sm text-gray-600 mt-1">
+                  <div className="text-xs text-gray-600 mt-1">
                     <span className="text-yellow-700">{user.questions} Questions</span> · 
                     <span className="text-blue-700"> {user.answers} Answers</span>
                   </div>
                 </div>
               </div>
-              <div className="font-bold text-lg text-yellow-800">{user.points} pts</div>
+              <div className="font-bold text-sm text-yellow-800">{user.points} pts</div>
             </div>
           </div>
         ))}
       </div>
 
-      <div className="mt-12 bg-white p-6 rounded-xl shadow-sm border border-gray-100">
-        <h3 className="text-xl font-bold text-gray-800 mb-4">Community Guidelines</h3>
+      <div className="mt-12 bg-white p-6 rounded-xl">
+        <h3 className="text-lg font-bold text-gray-800 mb-4">ErrorMan Guidelines</h3>
         <div className="space-y-6">
-          <button 
+          <button
             onClick={() => setIsModalOpen(true)}
-            className="w-full px-4 py-3 bg-yellow-700 text-white rounded-lg hover:bg-yellow-600 transition-colors flex items-center justify-center gap-2"
+            className="w-full px-4 py-3 bg-gradient-to-r from-yellow-500 to-yellow-600 text-white rounded-lg hover:bg-yellow-600 transition-colors flex items-center justify-center gap-2 text-sm"
           >
             View Complete Rules
           </button>
@@ -134,40 +132,46 @@ const Leaderboard = () => {
       {isModalOpen && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
           <div className="bg-white rounded-xl p-6 max-w-md w-full relative">
-            <button 
+            <button
               onClick={() => setIsModalOpen(false)}
               className="absolute top-4 right-4 text-gray-500 hover:text-gray-700"
             >
               <X className="h-5 w-5" />
             </button>
-            
-            <h3 className="text-xl font-bold text-gray-800 mb-6">Community Rules</h3>
-            
+
+            <h3 className="text-lg font-bold text-gray-800 mb-6">Community Rules</h3>
+
             <div className="space-y-4">
-              <h4 className="font-semibold text-yellow-800">Point System</h4>
-              <ul className="list-disc pl-4 space-y-2 text-gray-700">
-                <li>Asking a question earns 2 points</li>
-                <li>Providing an answer earns 1 point</li>
-              </ul>
+              <div className="bg-yellow-50 p-4 rounded-lg">
+                <h4 className="font-semibold text-yellow-800 mb-2 text-sm">Point System</h4>
+                <ul className="list-disc pl-4 space-y-2 text-gray-700 text-sm">
+                  <li>Asking a question earns 2 points</li>
+                  <li>Providing an answer earns 1 point</li>
+                </ul>
+              </div>
 
-              <h4 className="font-semibold text-yellow-800 mt-6">Participation Guidelines</h4>
-              <ul className="list-disc pl-4 space-y-2 text-gray-700">
-                <li>Be respectful and supportive to all community members</li>
-                <li>Ask clear, well-researched questions</li>
-                <li>Provide detailed, helpful answers</li>
-                <li>Use appropriate tags and formatting</li>
-                <li>Avoid duplicate questions</li>
-                <li>Report inappropriate content</li>
-              </ul>
+              <div className="bg-blue-50 p-4 rounded-lg">
+                <h4 className="font-semibold text-blue-800 mb-2 text-sm">Participation Guidelines</h4>
+                <ul className="list-disc pl-4 space-y-2 text-gray-700 text-sm">
+                  <li>Be respectful and supportive to all community members</li>
+                  <li>Ask clear, well-researched questions</li>
+                  <li>Provide detailed, helpful answers</li>
+                  <li>Use appropriate tags and formatting</li>
+                  <li>Avoid duplicate questions</li>
+                  <li>Report inappropriate content</li>
+                </ul>
+              </div>
 
-              <h4 className="font-semibold text-yellow-800 mt-6">Quality Standards</h4>
-              <ul className="list-disc pl-4 space-y-2 text-gray-700">
-                <li>Include relevant code examples when possible</li>
-                <li>Properly format code blocks</li>
-                <li>Cite sources when referencing external content</li>
-                <li>Keep discussions on-topic</li>
-                <li>Edit and improve your posts</li>
-              </ul>
+              <div className="bg-green-50 p-4 rounded-lg">
+                <h4 className="font-semibold text-green-800 mb-2 text-sm">Quality Standards</h4>
+                <ul className="list-disc pl-4 space-y-2 text-gray-700 text-sm">
+                  <li>Include relevant code examples when possible</li>
+                  <li>Properly format code blocks</li>
+                  <li>Cite sources when referencing external content</li>
+                  <li>Keep discussions on-topic</li>
+                  <li>Edit and improve your posts</li>
+                </ul>
+              </div>
             </div>
           </div>
         </div>
