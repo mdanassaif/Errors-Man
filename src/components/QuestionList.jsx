@@ -6,7 +6,7 @@ import { TimeAgo } from './TimeAgo';
 import { supabase } from '../lib/supabase'; // Adjust the path as necessary
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { tomorrow } from 'react-syntax-highlighter/dist/esm/styles/prism';
-import { UserModal } from './UserModal'; // Import the UserModal component
+import { UserModal } from '../components/Usermodal'; // Import the UserModal component
 import { useState } from 'react';
 
 export function QuestionList({
