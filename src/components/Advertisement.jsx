@@ -1,5 +1,5 @@
 // Advertisement.jsx
-import { Twitter, Linkedin, Github, Youtube, Instagram } from 'lucide-react';
+import { Twitter, Linkedin, Github, Youtube, Group } from 'lucide-react';
 
 export function Advertisement() {
   return (
@@ -63,17 +63,17 @@ export function Advertisement() {
               </div>
             </a>
 
-            {/* Instagram */}
+            {/* Telegram */}
 
-            <a href="https://instagram.com/mdanassaif1"
+            <a href="https://t.me/+fpr06YFaR_M0YmE1"
               target="_blank"
               rel="noopener noreferrer"
               className="flex items-center gap-3 p-3 bg-gray-50 rounded-lg hover:bg-gray-100"
             >
-              <Instagram className="w-6 h-6 text-pink-700" />
+              <Group className="w-6 h-6 text-pink-700" />
               <div className="text-left">
-                <h3 className="font-semibold text-sm">Instagram</h3>
-                <p className="text-xs text-gray-600">Our photos</p>
+                <h3 className="font-semibold text-sm">Telegram</h3>
+                <p className="text-xs text-gray-600">Our Group</p>
               </div>
             </a>
           </div>
