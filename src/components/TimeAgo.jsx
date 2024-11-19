@@ -1,5 +1,7 @@
 import PropTypes from 'prop-types';
 
+
+// simple logic but workable : )
 export function TimeAgo({ date }) {
     const getTimeAgo = (date) => {
       const seconds = Math.floor((new Date() - new Date(date)) / 1000);

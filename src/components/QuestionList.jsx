@@ -3,10 +3,10 @@
 import { MessageCircle, Tag, CheckCircle } from 'lucide-react';
 import PropTypes from 'prop-types';
 import { TimeAgo } from './TimeAgo';
-import { supabase } from '../lib/supabase'; // Adjust the path as necessary
+import { supabase } from '../lib/supabase';  
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { tomorrow } from 'react-syntax-highlighter/dist/esm/styles/prism';
-import { UserModal } from '../components/Usermodal'; // Import the UserModal component
+import { UserModal } from '../components/Usermodal';  
 import { useState } from 'react';
 
 export function QuestionList({
@@ -18,6 +18,8 @@ export function QuestionList({
   onAnswerSubmit,
   currentUser
 }) {
+
+  // All types to ignore all types errors : Because i hate typescript for only type-errors || it already in types.ts file
   QuestionList.propTypes = {
     questions: PropTypes.arrayOf(PropTypes.shape({
       id: PropTypes.number.isRequired,

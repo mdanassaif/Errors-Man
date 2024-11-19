@@ -1,4 +1,3 @@
-// UserModal.jsx
 import { X, HelpCircle, MessageCircle, Calendar } from 'lucide-react';
 import PropTypes from 'prop-types';
 import { useState, useEffect } from 'react';
@@ -124,6 +123,7 @@ export function UserModal({ isOpen, onClose, username, avatarUrl }) {
   );
 }
 
+// eslint-disable-next-line react/prop-types
 function StatCard({ icon, label, value }) {
   return (
     <div className="p-3 bg-gray-50 rounded-lg">
@@ -136,6 +136,7 @@ function StatCard({ icon, label, value }) {
   );
 }
 
+// I hate types error in ts
 UserModal.propTypes = {
   isOpen: PropTypes.bool.isRequired,
   onClose: PropTypes.func.isRequired,
