@@ -4,7 +4,7 @@ ErrorsMan is a collaborative debugging and learning platform aimed at creating a
 
 ## Demo  
 
-![ErrorsMan Demo](./errorsman.png)  
+![ErrorsMan Site](./errorsman.png)  
 
 _Check out the live application:_ [ErrorsMan Demo](https://errors-man.vercel.app/)  
 
