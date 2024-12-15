@@ -186,7 +186,7 @@ export default function ErrorsManPlatform() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-100">
+    <div className="max-h-screen bg-gray-100">
       {/* Enhanced Header */}
       <header className="text-white p-4 top-0 z-10 border-b-2 border-yellow-700">
         <div className="max-w-7xl mx-auto flex flex-col sm:flex-row justify-between items-center gap-4">

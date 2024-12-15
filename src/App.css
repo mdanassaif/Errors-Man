@@ -1,0 +1,11 @@
+.userpf {
+    transition: opacity 0.5s, height 0.4s;
+}
+
+.fadeIn {
+    opacity: 1;
+}
+
+.fadeOut {
+    opacity: 0;
+}

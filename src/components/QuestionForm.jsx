@@ -233,7 +233,7 @@ export function QuestionForm({ newQuestion, setNewQuestion, onSubmit }) {
   );
 
   return (
-    <div className="bg-white rounded-lg shadow-lg p-6">
+    <div className="bg-white rounded-lg shadow-lg p-6 mb-8">
       <div className="mb-4">
         <div className="text-sm text-gray-600">
           Questions remaining: {remainingQuestions}/{MAX_QUESTIONS_PER_PERIOD}

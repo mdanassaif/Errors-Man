@@ -1,6 +1,6 @@
  
   // QuestionList.jsx
-import { MessageCircle, Tag, CheckCircle } from 'lucide-react';
+import { MessageCircle, Tag, CheckCircle, Copy } from 'lucide-react';
 import PropTypes from 'prop-types';
 import { TimeAgo } from './TimeAgo';
 import { supabase } from '../lib/supabase';  
@@ -65,14 +65,31 @@ export function QuestionList({
   const handleUserModalClose = () => {
     setIsUserModalOpen(false);
   };
-
+  const [buttonText, setButtonText] = useState('Copy');
+  
   const renderCode = (code, language) => {
     if (!code) return null;
 
+    const handleCopyClick = () => {
+   //   const testtext = 'This function is for functionality of the copy button';
+      navigator.clipboard.writeText(code).then(() => {
+        setButtonText('Copied');
+        setTimeout(() => {
+          setButtonText('Copy');
+        }, 2000);
+      }).catch(err => {
+        console.error('Failed to copy text: ', err);
+      });
+    };
+
     return (
       <div className="mt-4 bg-gray-900 rounded-lg overflow-hidden">
-        <div className="px-4 py-2 bg-gray-800 text-gray-300 text-sm">
-          {language || 'Code'}
+        <div className="px-4 py-2 bg-gray-800 text-gray-300 text-sm flex flex-row justify-between items-center">
+          {(language || 'Code')[0].toUpperCase() + (language || 'Code').slice(1)} 
+          <div className='flex flex-row justify-between items-center hover:bg-white hover:bg-opacity-10 transition duration-300 p-1 rounded-md select-none' onClick={handleCopyClick}>
+            <Copy size={16} className="mr-2 "/>
+            <span>{buttonText}</span>
+          </div>
         </div>
         <SyntaxHighlighter
           language={language || 'javascript'}
@@ -106,7 +123,7 @@ export function QuestionList({
   return (
     <div className="space-y-6">
       {questions.map((question) => (
-        <div key={question.id} className="bg-white rounded-lg shadow-md overflow-hidden">
+        <div key={question.id} className="bg-white rounded-xl shadow-md overflow-hidden">
           <div className="p-6">
             {/* Question Header */}
             <div className="flex items-center gap-4 mb-4">
