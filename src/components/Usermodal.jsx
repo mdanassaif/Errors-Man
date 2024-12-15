@@ -49,20 +49,21 @@ export function UserModal({ isOpen, onClose, username, avatarUrl }) {
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 overflow-y-auto">
-      <div className="bg-white rounded-lg shadow-xl w-full max-w-2xl p-6 m-4">
-        <div className="flex justify-between items-center mb-6">
-          <h2 className="text-xl font-bold text-gray-900">User Profile</h2>
-          <button onClick={onClose} className="text-gray-500 hover:text-gray-700">
-            <X className="w-5 h-5" />
-          </button>
-        </div>
+    <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 overflow-y-hidden userpf">
+      <div className="bg-white rounded-lg shadow-xl w-full max-w-2xl p-0 m-4 h-[75vh] overflow-y-hidden">
+        <div className='overflow-y-scroll p-6 h-full profilescroll'>
+          <div className="flex justify-between items-center mb-6">
+            <h2 className="text-xl font-bold text-gray-900">User Profile</h2>
+            <button onClick={onClose} className="text-gray-500 hover:text-gray-700">
+              <X className="w-5 h-5" />
+            </button>
+          </div>
 
-        {isLoading ? (
+          {isLoading ? (
           <div className="flex justify-center items-center h-64">
             <div className="animate-spin rounded-full h-10 w-10 border-b-2 border-gray-900"></div>
           </div>
-        ) : (
+          ) : (
           <div className="space-y-4">
             <div className="flex items-center space-x-4">
               <img
@@ -88,12 +89,12 @@ export function UserModal({ isOpen, onClose, username, avatarUrl }) {
                 icon={<HelpCircle className="w-4 h-4 text-yellow-600" />}
                 label="Questions"
                 value={userStats.questionCount}
-              />
+                />
               <StatCard
                 icon={<MessageCircle className="w-4 h-4 text-green-600" />}
                 label="Answers"
                 value={userStats.answerCount}
-              />
+                />
             </div>
 
             {userStats.recentActivity.length > 0 && (
@@ -117,7 +118,8 @@ export function UserModal({ isOpen, onClose, username, avatarUrl }) {
               </div>
             )}
           </div>
-        )}
+          )}
+        </div>
       </div>
     </div>
   );

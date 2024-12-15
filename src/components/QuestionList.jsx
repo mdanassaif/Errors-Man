@@ -123,7 +123,7 @@ export function QuestionList({
   return (
     <div className="space-y-6">
       {questions.map((question) => (
-        <div key={question.id} className="bg-white rounded-lg shadow-md overflow-hidden">
+        <div key={question.id} className="bg-white rounded-xl shadow-md overflow-hidden">
           <div className="p-6">
             {/* Question Header */}
             <div className="flex items-center gap-4 mb-4">
