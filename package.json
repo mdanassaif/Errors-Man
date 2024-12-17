@@ -12,6 +12,7 @@
   "dependencies": {
     "@multiavatar/multiavatar": "github:multiavatar/multiavatar",
     "@supabase/supabase-js": "^2.45.6",
+    "@vercel/analytics": "^1.4.1",
     "bcryptjs": "^2.4.3",
     "framer-motion": "^11.11.9",
     "lucide-react": "^0.453.0",
