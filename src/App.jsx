@@ -6,6 +6,7 @@ import { NewsPage } from './components/NewsPage';
 import { ChatPage } from './components/ChatPage';
 import { Navigation } from './components/Navigation';
 import './App.css';
+import { Analytics } from "@vercel/analytics/react"
 
 function App() {
   const [showLanding, setShowLanding] = useState(true);
@@ -76,7 +77,9 @@ function App() {
           />
         </Routes>
       </div>
+      <Analytics/>
     </Router>
+    
   );
 }
 
