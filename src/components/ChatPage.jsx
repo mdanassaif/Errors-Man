@@ -1,9 +1,12 @@
- 
 export function ChatPage() {
   return (
-    <div className="chat-page container mx-auto p-6">
-      <h1 className="text-3xl font-bold mb-4">Chat Page</h1>
-      <p>Real-time chat functionality will be implemented here.</p>
+    <div className="min-w-full chat-page container mx-auto p-0" style={{ height: "100vh", width: "100vw" }}>
+      <iframe 
+        src="https://livechatgroup007.vercel.app/" 
+        title="Live Chat Group" 
+        style={{ width: "100%", height: "100%", border: "none" }} 
+        allow="clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+      />
     </div>
   );
 }

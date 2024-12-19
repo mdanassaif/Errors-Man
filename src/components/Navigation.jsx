@@ -18,11 +18,11 @@ export function Navigation() {
           </li>
           <li>
             <Link 
-              to="/news" 
+              to="/generate" 
               className="flex items-center space-x-2 hover:text-gray-600 transition"
             >
               <Newspaper className="w-5 h-5" />
-              <span>News</span>
+              <span>Generate</span>
             </Link>
           </li>
           <li>

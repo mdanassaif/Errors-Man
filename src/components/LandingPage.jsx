@@ -8,7 +8,7 @@ import Logo from "../../error.jpeg";
 import { FEATURES } from "../data/constants";
 import FeatureDetailSlider from "./FeatureDetailSlider";
 
-export function LandingPage({ onUserSubmit }) {
+export  const LandingPage =({ onUserSubmit }) => {
   const [isSignUp, setIsSignUp] = useState(true);
   const [formData, setFormData] = useState({
     username: "",

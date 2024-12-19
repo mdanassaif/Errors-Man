@@ -2,7 +2,7 @@ import  { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { LandingPage } from './components/LandingPage';
 import ErrorsManPlatform from './components/ErrorsManPlatform';
-import { NewsPage } from './components/NewsPage';
+import { GeneratePage } from './components/GeneratePage';
 import { ChatPage } from './components/ChatPage';
 import { Navigation } from './components/Navigation';
 import './App.css';
@@ -52,11 +52,11 @@ function App() {
             } 
           />
           <Route 
-            path="/news" 
+            path="/generate" 
             element={
               !showLanding ? (
                 <> <Navigation/>
-                <NewsPage />
+                <GeneratePage />
                 </>
               ) : (
                 <Navigate to="/" replace />
