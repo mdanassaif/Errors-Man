@@ -39,7 +39,7 @@ function App() {
                 <Navigate to="/ask" replace />
               )
             } 
-          />
+          /> 
           <Route 
             path="/ask" 
             element={

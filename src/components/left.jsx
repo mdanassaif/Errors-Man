@@ -37,7 +37,7 @@ const Leaderboard = () => {
       const topUsers = Object.entries(users)
         .map(([username, stats]) => ({ username, ...stats }))
         .sort((a, b) => b.points - a.points)
-        .slice(0, 5);
+        .slice(0, 7);
 
       setLeaderboard(topUsers);
       setIsLoading(false);
