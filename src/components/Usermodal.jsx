@@ -1,4 +1,4 @@
-import { X, HelpCircle, MessageCircle, Calendar } from 'lucide-react';
+import { X, HelpCircle, MessageCircle, Calendar, Trophy } from 'lucide-react';
 import PropTypes from 'prop-types';
 import { useState, useEffect } from 'react';
 import { supabase } from '../lib/supabase';
@@ -10,6 +10,7 @@ export function UserModal({ isOpen, onClose, username, avatarUrl }) {
     joinDate: null,
     about: '',
     recentActivity: [],
+    points: 0,
   });
   const [isLoading, setIsLoading] = useState(true);
 
@@ -31,6 +32,11 @@ export function UserModal({ isOpen, onClose, username, avatarUrl }) {
       const recentActivity = [...(questions || []), ...(answers || [])]
         .sort((a, b) => new Date(b.created_at) - new Date(a.created_at))
         .slice(0, 5);
+        
+      // Count the points
+      const questionPoints = (questions?.length || 0) * 2; 
+      const answerPoints = (answers?.length || 0);
+      const totalPoints = questionPoints + answerPoints;
 
       setUserStats({
         questionCount: questions?.length || 0,
@@ -38,6 +44,7 @@ export function UserModal({ isOpen, onClose, username, avatarUrl }) {
         joinDate: userData?.created_at ? new Date(userData.created_at) : null,
         about: userData?.about || '',
         recentActivity,
+        points: totalPoints,
       });
     } catch (error) {
       console.error('Error fetching user stats:', error);
@@ -95,6 +102,11 @@ export function UserModal({ isOpen, onClose, username, avatarUrl }) {
                 label="Answers"
                 value={userStats.answerCount}
                 />
+              <StatCard
+                icon={<Trophy className="w-4 h-4 text-yellow-500" />} 
+                label="Points"
+                value={userStats.points}
+              />
             </div>
 
             {userStats.recentActivity.length > 0 && (
