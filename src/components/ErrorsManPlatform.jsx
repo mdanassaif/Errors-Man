@@ -30,6 +30,31 @@ export default function ErrorsManPlatform({ initialUsername })  {
   // eslint-disable-next-line no-unused-vars
   const [currentTime, setCurrentTime] = useState(new Date());
 
+  useEffect(() => {
+    // Create style element
+    const style = document.createElement('style');
+    style.id = 'no-scrollbar';
+    style.textContent = `
+      html::-webkit-scrollbar {
+        display: none;
+      }
+      
+      html {
+        -ms-overflow-style: none;
+        scrollbar-width: none;
+      }
+    `;
+    
+    // Add to document head
+    document.head.appendChild(style);
+
+    // Cleanup on unmount
+    return () => {
+      document.head.removeChild(style);
+    };
+  }, []);
+
+
   ErrorsManPlatform.propTypes = {
     initialUsername: PropTypes.string.isRequired
   };

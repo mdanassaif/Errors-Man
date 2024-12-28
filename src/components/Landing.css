@@ -1,0 +1,6 @@
+@media (min-width: 1024px) {
+    .landing-right {
+        max-height: 100vh;
+        overflow-y: scroll;
+    }
+}

@@ -7,6 +7,7 @@ import Logo from "../../error.jpeg";
 
 import { FEATURES } from "../data/constants";
 import FeatureDetailSlider from "./FeatureDetailSlider";
+import './Landing.css';
 
 export  const LandingPage =({ onUserSubmit }) => {
   const [isSignUp, setIsSignUp] = useState(true);
@@ -18,6 +19,13 @@ export  const LandingPage =({ onUserSubmit }) => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [activeFeature, setActiveFeature] = useState(0);
+
+  useEffect(() => {
+    const styleElement = document.getElementById('no-scrollbar');
+    if (styleElement) {
+      styleElement.remove();
+    }
+  }, []);
 
   // Auto-slide feature images
   useEffect(() => {
@@ -263,7 +271,7 @@ export  const LandingPage =({ onUserSubmit }) => {
       </div>
 
       {/* Right Section - Features Showcase */}
-      <div className="w-full lg:w-1/2 bg-gradient-to-b from-white to-gray-50 p-6 md:p-12 lg:p-16">
+      <div  className="landing-right w-full h-screen lg:w-1/2 bg-gradient-to-b from-white to-gray-50 p-6 md:p-12 lg:p-16">
         <div className="max-w-xl mx-auto">
           <div className="mb-12">
             <div className="flex items-center gap-3 mb-8 group">
@@ -286,7 +294,7 @@ export  const LandingPage =({ onUserSubmit }) => {
               activeFeature={activeFeature}
             />
 
-            <div className="flex justify-center mt-6 space-x-4">
+            <div className="flex justify-center mt-6 space-x-4 pb-10">
               {FEATURES.map((feature, index) => (
                 <button
                   key={index}

@@ -1,12 +1,13 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { GoogleGenerativeAI } from '@google/generative-ai';
+import { div } from 'framer-motion/client';
 
 export const GeneratePage = () => {
   const [insightType, setInsightType] = useState('dsa');
   const [insights, setInsights] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
 
- 
+
   const API_KEY = import.meta.env.VITE_REACT_APP_GOOGLE_GENAI_API_KEY || '';
   const genAI = new GoogleGenerativeAI(API_KEY);
 
@@ -71,8 +72,9 @@ export const GeneratePage = () => {
   };
 
   return (
-    <div className="coding-insight-hub container mx-auto px-4 py-8">
-      <div className="text-center mb-10">
+    <div className='w-screen h-screen bg-gray-100'>
+    <div className="coding-insight-hub container m-0 px-4 py-8 h-screen w-full">
+      <div className="text-center mb-10 w-full">
         <h1 className="text-4xl font-extrabold text-gray-800 mb-4">
           Generate Stuffs with choice
         </h1>
@@ -96,7 +98,7 @@ export const GeneratePage = () => {
           onClick={fetchCodingInsights}
           disabled={isLoading}
           className="px-6 py-3 bg-gradient-to-r from-yellow-500 to-yellow-600 text-white rounded-lg 
-                       transition-colors 
+                      transition-colors 
                      disabled:opacity-50 flex items-center"
         >
           {isLoading ? (
@@ -129,6 +131,8 @@ export const GeneratePage = () => {
           </div>
         ))}
       </div>
+    </div>
+
     </div>
   );
 };
