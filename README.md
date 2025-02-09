@@ -2,7 +2,7 @@
 
 ErrorsMan is a collaborative debugging and learning platform aimed at creating a community where developers can debug problems together and grow their knowledge base collectively.  
 
-## Demo  
+## A cool Demo  
 
 ![ErrorsMan Site](./errorsman.png)  
 
