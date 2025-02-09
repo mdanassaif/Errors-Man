@@ -9,3 +9,35 @@
 .fadeOut {
     opacity: 0;
 }
+
+/* Add dark mode styles */
+.dark {
+    background-color: #1a1a1a;
+    color: #ffffff;
+  }
+  
+  .dark .bg-white {
+    background-color: #2d2d2d;
+    color: #ffffff;
+  }
+  
+  .dark .text-gray-900 {
+    color: #ffffff;
+  }
+  
+  .dark .text-gray-700 {
+    color: #d1d1d1;
+  }
+
+  @keyframes pill {
+    from {
+      transform: translateX(-50%) scaleX(0);
+    }
+    to {
+      transform: translateX(-50%) scaleX(1);
+    }
+  }
+  
+  .animate-pill {
+    animation: pill 0.3s ease-in-out forwards;
+  }
