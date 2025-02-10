@@ -13,7 +13,7 @@
     "@google/generative-ai": "^0.21.0",
     "@multiavatar/multiavatar": "github:multiavatar/multiavatar",
     "@supabase/supabase-js": "^2.45.6",
-    "@vercel/analytics": "^1.4.1",
+    "@vercel/analytics": "^1.5.0",
     "axios": "^1.7.9",
     "bcryptjs": "^2.4.3",
     "framer-motion": "^11.11.9",

@@ -5,11 +5,11 @@ import ErrorsManPlatform from './components/ErrorsManPlatform';
 import { GeneratePage } from './components/GeneratePage';
 import { ChatPage } from './components/ChatPage';
 import { Navigation } from './components/Navigation';
-import { Analytics } from "@vercel/analytics/react";
+import { Analytics } from "@vercel/analytics/react"
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import './App.css';
-import QuestionDetail from './components/QuestionDetail';
+import QuestionDetail from './components/QuestionDetail'; 
 
 function App() {
   const [showLanding, setShowLanding] = useState(true);
@@ -31,6 +31,8 @@ function App() {
     document.documentElement.classList.toggle('dark', isDarkMode);
   }, [isDarkMode]);
 
+ 
+
   return (
     <Router>
       <div className={`App ${isDarkMode ? 'dark' : ''}`}>
@@ -41,24 +43,24 @@ function App() {
           {isDarkMode ? '🌙' : '☀️'}
         </button>
         <Routes>
-          <Route path="/" element={
-            currentUser ? 
-              <ErrorsManPlatform initialUsername={currentUser} /> :
-              <LandingPage onUserSubmit={(user) => {
-                setCurrentUser(user);
-                localStorage.setItem('currentUser', user);
-              }} />
-          }/>
-          <Route path="/question/:id" element={
-            <QuestionDetail currentUser={currentUser} />
-          }/>
+        <Route path="/" element={
+          currentUser ? 
+            <ErrorsManPlatform initialUsername={currentUser} /> :
+            <LandingPage onUserSubmit={(user) => {
+              setCurrentUser(user);
+              localStorage.setItem('currentUser', user);
+            }} />
+        }/>
+        <Route path="/question/:id" element={
+          <QuestionDetail currentUser={currentUser} />
+        }/>
           <Route
             path="/ask"
             element={
-              currentUser ? (
+              !showLanding ? (
                 <>
-                  <Navigation />
-                  <ErrorsManPlatform initialUsername={currentUser} />
+                  {/* <Navigation /> */}
+                  <ErrorsManPlatform initialUsername={username} />
                 </>
               ) : (
                 <Navigate to="/" replace />
@@ -68,7 +70,7 @@ function App() {
           <Route
             path="/generate"
             element={
-              currentUser ? (
+              !showLanding ? (
                 <>
                   <Navigation />
                   <GeneratePage />
@@ -81,7 +83,7 @@ function App() {
           <Route
             path="/chat"
             element={
-              currentUser ? (
+              !showLanding ? (
                 <>
                   <Navigation />
                   <ChatPage />
@@ -92,6 +94,7 @@ function App() {
             }
           />
           <Route path="*" element={<Navigate to="/" replace />} />
+          <Route path="/question/:id" element={<QuestionDetail />} />
         </Routes>
         <Analytics />
         <ToastContainer position="bottom-right" />
