@@ -10,8 +10,12 @@ import { generateAvatar } from '../utils/avatar';
 import Left from '../components/left';
 import { toast } from 'react-toastify';
 
+ErrorsManPlatform.propTypes = {
+  initialUsername: PropTypes.string.isRequired,
+};
+
 export default function ErrorsManPlatform({ initialUsername }) {
-  const [username, setUsername] = useState(initialUsername);
+ 
   const [questions, setQuestions] = useState([]);
   const [showQuestionForm, setShowQuestionForm] = useState(false);
   const [newQuestion, setNewQuestion] = useState({
@@ -25,6 +29,7 @@ export default function ErrorsManPlatform({ initialUsername }) {
   const [selectedQuestion, setSelectedQuestion] = useState(null);
   const [error, setError] = useState(null);
   const [isUserModalOpen, setIsUserModalOpen] = useState(false);
+  const [username] = useState(localStorage.getItem('currentUser') || '');
 
   useEffect(() => {
     if (!initialUsername) return;

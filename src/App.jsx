@@ -9,12 +9,15 @@ import { Analytics } from "@vercel/analytics/react";
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import './App.css';
-import QuestionDetail from './components/QuestionDetail'; 
+import QuestionDetail from './components/QuestionDetail';
 
 function App() {
   const [showLanding, setShowLanding] = useState(true);
   const [username, setUsername] = useState('');
   const [isDarkMode, setIsDarkMode] = useState(false);
+  const [currentUser, setCurrentUser] = useState(
+    localStorage.getItem('currentUser') || ''
+  );
 
   useEffect(() => {
     const storedUsername = localStorage.getItem('username');
@@ -28,12 +31,6 @@ function App() {
     document.documentElement.classList.toggle('dark', isDarkMode);
   }, [isDarkMode]);
 
-  const handleUserSubmit = (name) => {
-    setUsername(name);
-    setShowLanding(false);
-    localStorage.setItem('username', name);
-  };
-
   return (
     <Router>
       <div className={`App ${isDarkMode ? 'dark' : ''}`}>
@@ -44,23 +41,24 @@ function App() {
           {isDarkMode ? '🌙' : '☀️'}
         </button>
         <Routes>
-          <Route
-            path="/"
-            element={
-              showLanding ? (
-                <LandingPage onUserSubmit={handleUserSubmit} />
-              ) : (
-                <Navigate to="/ask" replace />
-              )
-            }
-          />
+          <Route path="/" element={
+            currentUser ? 
+              <ErrorsManPlatform initialUsername={currentUser} /> :
+              <LandingPage onUserSubmit={(user) => {
+                setCurrentUser(user);
+                localStorage.setItem('currentUser', user);
+              }} />
+          }/>
+          <Route path="/question/:id" element={
+            <QuestionDetail currentUser={currentUser} />
+          }/>
           <Route
             path="/ask"
             element={
-              !showLanding ? (
+              currentUser ? (
                 <>
-                  {/* <Navigation /> */}
-                  <ErrorsManPlatform initialUsername={username} />
+                  <Navigation />
+                  <ErrorsManPlatform initialUsername={currentUser} />
                 </>
               ) : (
                 <Navigate to="/" replace />
@@ -70,7 +68,7 @@ function App() {
           <Route
             path="/generate"
             element={
-              !showLanding ? (
+              currentUser ? (
                 <>
                   <Navigation />
                   <GeneratePage />
@@ -83,7 +81,7 @@ function App() {
           <Route
             path="/chat"
             element={
-              !showLanding ? (
+              currentUser ? (
                 <>
                   <Navigation />
                   <ChatPage />
@@ -94,7 +92,6 @@ function App() {
             }
           />
           <Route path="*" element={<Navigate to="/" replace />} />
-          <Route path="/question/:id" element={<QuestionDetail />} />
         </Routes>
         <Analytics />
         <ToastContainer position="bottom-right" />

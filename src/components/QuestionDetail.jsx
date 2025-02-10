@@ -5,7 +5,8 @@ import { toast } from 'react-toastify';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { tomorrow } from 'react-syntax-highlighter/dist/esm/styles/prism';
 import { TimeAgo } from './TimeAgo';
-import { ArrowLeft, Flame, Zap } from 'lucide-react';
+import { ArrowLeft, Flame } from 'lucide-react';
+import { generateAvatar } from '../utils/avatar';
 
 export default function QuestionDetail() {
   const { id } = useParams();
@@ -15,6 +16,8 @@ export default function QuestionDetail() {
   const [newAnswer, setNewAnswer] = useState('');
   const [isLoading, setIsLoading] = useState(true);
   const [trendingQuestions, setTrendingQuestions] = useState([]);
+  const currentUser = localStorage.getItem('currentUser') || '';
+
 
   useEffect(() => {
     fetchQuestion();
@@ -63,19 +66,21 @@ export default function QuestionDetail() {
     }
   };
 
-  const handleAddAnswer = async () => {
+ const handleAddAnswer = async () => {
     if (!newAnswer.trim()) {
       toast.error('Please provide content for your answer');
       return;
     }
 
     try {
+      const avatarUrl = generateAvatar(currentUser);
       const { error } = await supabase
         .from('answers')
         .insert([{
           question_id: id,
           content: newAnswer.trim(),
-          user_id: 'currentUser', // Replace with actual user ID
+          user_id: currentUser,
+          avatar_url: avatarUrl,
         }]);
 
       if (error) throw error;
