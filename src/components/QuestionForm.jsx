@@ -130,20 +130,21 @@ export function QuestionForm({ newQuestion, setNewQuestion, onSubmit }) {
   };
 
   const renderDetailsTab = () => (
-    <div className="space-y-4">
+    <div className="space-y-6">
       <div className="relative">
         <input
           type="text"
           placeholder=" "
-          className="w-full p-3 rounded-lg border border-gray-300 focus:border-blue-500 focus:outline-none peer"
+          className="w-full p-3 rounded-lg border border-gray-300 dark:border-gray-600 focus:border-yellow-500 focus:outline-none peer bg-transparent"
           value={newQuestion.title}
           onChange={(e) => setNewQuestion(prev => ({ ...prev, title: e.target.value }))}
           maxLength={MAX_TITLE_LENGTH}
         />
-        <label className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500 pointer-events-none transition-all duration-200 peer-focus:-translate-y-7 peer-focus:text-sm peer-focus:text-blue-500 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:text-base">
+        <label className={`absolute left-3 top-3 text-gray-500 dark:text-gray-400 pointer-events-none transition-all duration-200 
+          ${newQuestion.title ? '-translate-y-7 text-sm text-yellow-500' : 'peer-focus:-translate-y-6 peer-focus:text-sm peer-focus:text-yellow-500'}`}>
           What's your programming question?
         </label>
-        <div className="text-sm text-gray-500 mt-1">
+        <div className="text-sm text-gray-500 dark:text-gray-400 mt-1">
           {newQuestion.title.length}/{MAX_TITLE_LENGTH} characters
         </div>
       </div>
@@ -151,16 +152,17 @@ export function QuestionForm({ newQuestion, setNewQuestion, onSubmit }) {
       <div className="relative">
         <textarea
           placeholder=" "
-          className="w-full p-3 rounded-lg border border-gray-300 focus:border-blue-500 focus:outline-none peer"
+          className="w-full p-3 rounded-lg border border-gray-300 dark:border-gray-600 focus:border-yellow-500 focus:outline-none peer bg-transparent"
           rows="4"
           value={newQuestion.content}
           onChange={(e) => setNewQuestion(prev => ({ ...prev, content: e.target.value }))}
           maxLength={MAX_CONTENT_LENGTH}
         />
-        <label className="absolute left-3 top-4 text-gray-500 pointer-events-none transition-all duration-200 peer-focus:-translate-y-7 peer-focus:text-sm peer-focus:text-blue-500 peer-placeholder-shown:-translate-y-0 peer-placeholder-shown:text-base">
+        <label className={`absolute left-3 top-4 text-gray-500 dark:text-gray-400 pointer-events-none transition-all duration-200 
+          ${newQuestion.content ? '-translate-y-7 text-sm text-yellow-500' : 'peer-focus:-translate-y-6 peer-focus:text-sm peer-focus:text-yellow-500'}`}>
           Describe your problem in detail...
         </label>
-        <div className="text-sm text-gray-500 mt-1">
+        <div className="text-sm text-gray-500 dark:text-gray-400 mt-1">
           {newQuestion.content.length}/{MAX_CONTENT_LENGTH} characters
         </div>
       </div>
@@ -168,9 +170,9 @@ export function QuestionForm({ newQuestion, setNewQuestion, onSubmit }) {
   );
 
   const renderCodeTab = () => (
-    <div className="space-y-4">
+    <div className="space-y-6">
       <select
-        className="w-full p-3 rounded-lg border border-gray-300 focus:border-blue-500 focus:outline-none"
+        className="w-full p-3 rounded-lg border border-gray-300 dark:border-gray-600 focus:border-yellow-500 focus:outline-none bg-transparent"
         value={newQuestion.language}
         onChange={(e) => setNewQuestion(prev => ({ ...prev, language: e.target.value }))}
       >
@@ -183,16 +185,17 @@ export function QuestionForm({ newQuestion, setNewQuestion, onSubmit }) {
       <div className="relative">
         <textarea
           placeholder=" "
-          className="w-full p-3 rounded-lg border border-gray-300 focus:border-blue-500 focus:outline-none font-mono peer"
+          className="w-full p-3 rounded-lg border border-gray-300 dark:border-gray-600 focus:border-yellow-500 focus:outline-none font-mono peer bg-transparent"
           rows="8"
           value={newQuestion.code}
           onChange={(e) => setNewQuestion(prev => ({ ...prev, code: e.target.value }))}
           maxLength={MAX_CODE_LENGTH}
         />
-        <label className="absolute left-3 top-4 text-gray-500 pointer-events-none transition-all duration-200 peer-focus:-translate-y-7 peer-focus:text-sm peer-focus:text-blue-500 peer-placeholder-shown:-translate-y-0 peer-placeholder-shown:text-base">
+        <label className={`absolute left-3 top-4 text-gray-500 dark:text-gray-400 pointer-events-none transition-all duration-200 
+          ${newQuestion.code ? '-translate-y-7 text-sm text-yellow-500' : 'peer-focus:-translate-y-6 peer-focus:text-sm peer-focus:text-yellow-500'}`}>
           Paste your code here...
         </label>
-        <div className="text-sm text-gray-500 mt-1">
+        <div className="text-sm text-gray-500 dark:text-gray-400 mt-1">
           {newQuestion.code.length}/{MAX_CODE_LENGTH} characters
         </div>
       </div>
@@ -218,13 +221,13 @@ export function QuestionForm({ newQuestion, setNewQuestion, onSubmit }) {
   );
 
   const renderLinksTab = () => (
-    <div className="space-y-4">
+    <div className="space-y-6">
       <form onSubmit={handleAddLink} className="flex gap-2">
         <input
           name="link"
           type="url"
           placeholder="https://example.com"
-          className="flex-1 p-3 rounded-lg border border-gray-300 focus:border-blue-500 focus:outline-none"
+          className="flex-1 p-3 rounded-lg border border-gray-300 dark:border-gray-600 focus:border-yellow-500 focus:outline-none bg-transparent"
         />
         <button
           type="submit"
@@ -237,8 +240,8 @@ export function QuestionForm({ newQuestion, setNewQuestion, onSubmit }) {
       {newQuestion.links?.length > 0 && (
         <div className="space-y-2">
           {newQuestion.links.map((link, index) => (
-            <div key={index} className="flex items-center gap-2 p-2 bg-gray-100 rounded-lg">
-              <a href={link} target="_blank" rel="noopener noreferrer" className="flex-1 truncate hover:text-blue-500">
+            <div key={index} className="flex items-center gap-2 p-2 bg-gray-100 dark:bg-gray-700 rounded-lg">
+              <a href={link} target="_blank" rel="noopener noreferrer" className="flex-1 truncate hover:text-yellow-500">
                 {link}
               </a>
               <button
@@ -258,15 +261,15 @@ export function QuestionForm({ newQuestion, setNewQuestion, onSubmit }) {
   );
 
   return (
-    <div className="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6 mb-8">
-      <div className="mb-4">
+    <div className="bg-white dark:bg-gray-800 rounded-lg p-6 mb-8">
+      <div className="mb-6">
         <div className="text-sm text-gray-600 dark:text-gray-400">
           Questions remaining: {remainingQuestions}/{MAX_QUESTIONS_PER_PERIOD}
           {nextResetTime && (
             <span> (Resets at {new Date(nextResetTime).toLocaleTimeString()})</span>
           )}
         </div>
-        <div className="w-full bg-gray-200 rounded-full h-2 mt-2">
+        <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2 mt-2">
           <div
             className="bg-yellow-500 h-2 rounded-full"
             style={{ width: `${(remainingQuestions / MAX_QUESTIONS_PER_PERIOD) * 100}%` }}
