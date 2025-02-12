@@ -4,7 +4,7 @@ import { Twitter, Linkedin, Github, Youtube, Group } from 'lucide-react';
 export function Advertisement() {
   return (
     <div className="bg-white rounded-lg  mb-6">
-      <h3 className="text-gray-900 pt-2 pl-2 text-lg font-bold mb-2">Sponsored</h3>
+      {/* <h3 className="text-gray-900 pt-2 pl-2 text-lg font-bold mb-2">Sponsored</h3>
       <div className="rounded-lg p-4">
         <iframe
           src="https://cards.producthunt.com/cards/posts/555894?v=1"
@@ -13,7 +13,7 @@ export function Advertisement() {
           scrolling="no"
           allowFullScreen
         />
-      </div>
+      </div> */}
 
       <div className="max-w-2xl mx-auto p-4">
         {/* Social Media Section */}
@@ -107,6 +107,33 @@ export function Advertisement() {
             </a>
           </div>
         </div>
+
+        <div className="mt-8">
+  <h2 className="text-lg font-bold mb-4">Latest Blog</h2>
+  <div className="w-full">
+    <div className="relative w-full" style={{ paddingTop: '56.25%' }}>
+      {/* Blog Image */}
+      <img
+        src="https://mdanassaif.vercel.app/_next/image?url=https%3A%2F%2Flcmbjbjvfatzaqcfdygk.supabase.co%2Fstorage%2Fv1%2Fobject%2Fpublic%2Fmyblogs%2Fblog5.jpg%3Ft%3D2025-01-07T21%253A37%253A40.036Z&w=3840&q=75" // Replace with your blog image URL
+        alt="Latest Blog"
+        className="absolute top-0 left-0 w-full h-full object-cover rounded-lg"
+      />
+    </div>
+  </div>
+
+  {/* Read Button */}
+  <div className="mt-4">
+    <a
+      href="https://mdanassaif.vercel.app/blog/how-to-learn-coding-in-2025" // Replace with your blog URL
+      target="_blank"
+      rel="noopener noreferrer"
+      className="inline-flex items-center gap-2 bg-black text-white px-4 py-2 rounded-lg hover:bg-gray-700 transition-colors"
+    >
+      <Youtube className="w-5 h-5" />
+      <span className="text-sm font-medium">Read</span>
+    </a>
+  </div>
+</div>
       </div>
     </div>
   );

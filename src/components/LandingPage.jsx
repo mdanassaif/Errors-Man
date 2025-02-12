@@ -8,7 +8,7 @@ import Logo from "../../error.jpeg";
 import { FEATURES } from "../data/constants";
 import FeatureDetailSlider from "./FeatureDetailSlider";
 
-export  const LandingPage =({ onUserSubmit }) => {
+export const LandingPage = ({ onUserSubmit }) => {
   const [isSignUp, setIsSignUp] = useState(true);
   const [formData, setFormData] = useState({
     username: "",
@@ -56,11 +56,10 @@ export  const LandingPage =({ onUserSubmit }) => {
     return errors;
   };
 
-  // Check existing user
   const checkExistingUser = async (username) => {
     const { data, error } = await supabase
       .from("users")
-      .select("username")
+      .select("username, password")
       .eq("username", username)
       .single();
 
@@ -84,18 +83,16 @@ export  const LandingPage =({ onUserSubmit }) => {
       const existingUser = await checkExistingUser(trimmedUsername);
 
       if (isSignUp) {
-       
         if (existingUser) {
           setError("Username already exists. Please choose another.");
           setLoading(false);
           return;
         }
 
-         
         const { error: insertError } = await supabase.from("users").insert([
           {
             username: trimmedUsername,
-            password: formData.password,  
+            password: formData.password,
             about: formData.about.trim(),
           },
         ]);
@@ -103,9 +100,14 @@ export  const LandingPage =({ onUserSubmit }) => {
         if (insertError) throw insertError;
         onUserSubmit(trimmedUsername);
       } else {
-        // Sign In Logic
         if (!existingUser) {
           setError("User not found. Please sign up first.");
+          setLoading(false);
+          return;
+        }
+
+        if (existingUser.password !== formData.password) {
+          setError("Invalid password. Please try again.");
           setLoading(false);
           return;
         }
@@ -127,7 +129,7 @@ export  const LandingPage =({ onUserSubmit }) => {
       className="h-screen flex flex-col lg:flex-row"
     >
       {/* Left Section - Sign Up/Sign In Form */}
-      <div className="w-full lg:w-1/2 bg-gradient-to-br from-gray-900 to-gray-800 p-6 md:p-12 lg:p-16 flex items-center justify-center ">
+      <div className="w-full lg:w-1/2 bg-gradient-to-br from-gray-900 to-gray-800 p-6 md:p-12 lg:p-16 flex items-center justify-center">
         <div className="w-full max-w-md">
           <div className="mb-8 text-center">
             <h1 className="text-4xl font-bold text-white mb-4">
@@ -135,25 +137,29 @@ export  const LandingPage =({ onUserSubmit }) => {
             </h1>
             <p className="text-gray-300">
               {isSignUp
-                ? "Join developer community and solve all coding errors."
+                ? "Join the developer community and solve all coding errors."
                 : "Sign in to continue your coding journey"}
             </p>
           </div>
 
-          <div className="bg-white/10 backdrop-blur-lg rounded-2xl p-8">
+          <div className="bg-white/10 backdrop-blur-lg rounded-2xl p-8 border border-white/10 shadow-lg">
             <div className="flex justify-center mb-6">
               <button
                 onClick={() => setIsSignUp(true)}
-                className={`mr-4 px-4 py-2 rounded-lg ${
-                  isSignUp ? "bg-gray-800 text-white" : "text-gray-400"
+                className={`mr-4 px-6 py-2 rounded-full text-sm font-medium transition-all ${
+                  isSignUp
+                    ? "bg-white text-gray-900 shadow-md"
+                    : "text-gray-400 hover:text-gray-200"
                 }`}
               >
                 Sign Up
               </button>
               <button
                 onClick={() => setIsSignUp(false)}
-                className={`px-4 py-2 rounded-lg ${
-                  !isSignUp ? "bg-gray-800 text-white" : "text-gray-400"
+                className={`px-6 py-2 rounded-full text-sm font-medium transition-all ${
+                  !isSignUp
+                    ? "bg-white text-gray-900 shadow-md"
+                    : "text-gray-400 hover:text-gray-200"
                 }`}
               >
                 Sign In
@@ -174,7 +180,7 @@ export  const LandingPage =({ onUserSubmit }) => {
                     name="username"
                     type="text"
                     placeholder="Enter your username"
-                    className="w-full px-4 py-3 rounded-lg bg-white/20 text-white placeholder-gray-400 border border-gray-600 focus:border-gray-500 focus:ring-2 focus:ring-gray-500 transition-all"
+                    className="w-full px-4 py-3 rounded-lg bg-white/10 text-white placeholder-gray-400 border border-white/10 focus:border-white/20 focus:ring-2 focus:ring-white/20 transition-all"
                     value={formData.username}
                     onChange={handleChange}
                     disabled={loading}
@@ -195,7 +201,7 @@ export  const LandingPage =({ onUserSubmit }) => {
                     placeholder={
                       isSignUp ? "Create a password" : "Enter your password"
                     }
-                    className="w-full px-4 py-3 rounded-lg bg-white/20 text-white placeholder-gray-400 border border-gray-600 focus:border-gray-500 focus:ring-2 focus:ring-gray-500 transition-all"
+                    className="w-full px-4 py-3 rounded-lg bg-white/10 text-white placeholder-gray-400 border border-white/10 focus:border-white/20 focus:ring-2 focus:ring-white/20 transition-all"
                     value={formData.password}
                     onChange={handleChange}
                     disabled={loading}
@@ -215,7 +221,7 @@ export  const LandingPage =({ onUserSubmit }) => {
                       name="about"
                       type="text"
                       placeholder="Brief description about yourself"
-                      className="w-full px-4 py-3 rounded-lg bg-white/20 text-white placeholder-gray-400 border border-gray-600 focus:border-gray-500 focus:ring-2 focus:ring-gray-500 transition-all"
+                      className="w-full px-4 py-3 rounded-lg bg-white/10 text-white placeholder-gray-400 border border-white/10 focus:border-white/20 focus:ring-2 focus:ring-white/20 transition-all"
                       value={formData.about}
                       onChange={(e) => {
                         const words = e.target.value.trim().split(/\s+/);
@@ -241,7 +247,7 @@ export  const LandingPage =({ onUserSubmit }) => {
               <button
                 type="submit"
                 disabled={loading}
-                className="w-full flex items-center justify-center gap-2 py-3 px-4 rounded-lg bg-gray-800 hover:from-gray-500 hover:to-gray-600 text-white font-medium transition-all disabled:opacity-50 disabled:cursor-not-allowed group"
+                className="w-full flex items-center justify-center gap-2 py-3 px-4 rounded-lg bg-white/10 hover:bg-white/20 text-white font-medium transition-all disabled:opacity-50 disabled:cursor-not-allowed group"
               >
                 {loading ? (
                   <div className="flex items-center gap-2">
@@ -256,8 +262,6 @@ export  const LandingPage =({ onUserSubmit }) => {
                 )}
               </button>
             </form>
-
-             
           </div>
         </div>
       </div>
@@ -304,9 +308,9 @@ export  const LandingPage =({ onUserSubmit }) => {
       </div>
     </motion.div>
   );
-}
+};
 
-// PropTypes 
+// PropTypes
 LandingPage.propTypes = {
   onUserSubmit: PropTypes.func.isRequired,
 };

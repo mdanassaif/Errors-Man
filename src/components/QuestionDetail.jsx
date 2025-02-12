@@ -18,7 +18,6 @@ export default function QuestionDetail() {
   const [trendingQuestions, setTrendingQuestions] = useState([]);
   const currentUser = localStorage.getItem('currentUser') || '';
 
-
   useEffect(() => {
     fetchQuestion();
     fetchTrendingQuestions();
@@ -66,7 +65,7 @@ export default function QuestionDetail() {
     }
   };
 
- const handleAddAnswer = async () => {
+  const handleAddAnswer = async () => {
     if (!newAnswer.trim()) {
       toast.error('Please provide content for your answer');
       return;
@@ -104,18 +103,18 @@ export default function QuestionDetail() {
   return (
     <div className="max-w-7xl mx-auto p-6 flex gap-8">
       {/* Main Content (Question and Answers) */}
-      <div className="flex-1">
+      <div className="flex-1 overflow-y-auto h-[calc(100vh-4rem)]">
         {/* Back Button */}
         <button
           onClick={() => navigate(-1)}
-          className="flex items-center gap-2 text-blue-500 hover:text-blue-600 mb-6"
+          className="flex items-center gap-2 text-yellow-500 hover:text-yellow-600 mb-6"
         >
           <ArrowLeft className="w-5 h-5" />
           <span>Back to Questions</span>
         </button>
 
         {/* Question Section */}
-        <div className="bg-yellow-50 dark:bg-gray-800 rounded-xl  p-6 mb-8 border-2 border-yellow-300">
+        <div className="bg-yellow-50 dark:bg-gray-800 rounded-xl p-6 mb-8 border-2 border-yellow-300">
           <div className="flex items-center gap-4 mb-6">
             <img
               src={question.avatar_url}
@@ -155,7 +154,7 @@ export default function QuestionDetail() {
                       href={link}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="text-blue-500 hover:text-blue-600 break-all"
+                      className="text-yellow-500 hover:text-yellow-600 break-all"
                     >
                       {link}
                     </a>
@@ -167,7 +166,7 @@ export default function QuestionDetail() {
         </div>
 
         {/* Answers Section */}
-        <div className="bg-white dark:bg-gray-800 rounded-xl  p-6">
+        <div className="bg-white dark:bg-gray-800 rounded-xl p-6">
           <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-6">
             Answers
           </h2>
@@ -201,24 +200,24 @@ export default function QuestionDetail() {
         <div className="mt-8">
           <textarea
             placeholder="Write your answer..."
-            className="w-full p-4 rounded-lg bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-700 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 text-sm"
+            className="w-full p-4 rounded-lg bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-700 focus:border-yellow-500 focus:ring-1 focus:ring-yellow-500 text-sm"
             rows="4"
             value={newAnswer}
             onChange={(e) => setNewAnswer(e.target.value)}
           />
           <button
             onClick={handleAddAnswer}
-            className="mt-4 px-6 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 text-sm"
+            className="mt-4 px-6 py-2 bg-yellow-500 text-white rounded-lg hover:bg-yellow-600 text-sm"
           >
             Post Answer
           </button>
         </div>
       </div>
 
-      {/* Right Sidebar (Trending Questions + Sponsored) */}
-      <div className="w-80 hidden lg:block">
+      {/* Right Sidebar (Trending Questions) */}
+      <div className="w-80 hidden lg:block sticky top-6 h-[calc(100vh-4rem)]">
         {/* Trending Questions */}
-        <div className="bg-white dark:bg-gray-800 rounded-xl  p-6 mb-6">
+        <div className="bg-white dark:bg-gray-800 rounded-xl p-6 mb-6">
           <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-4 flex items-center gap-2">
             <Flame className="w-5 h-5 text-orange-500" />
             Latest Questions
@@ -238,29 +237,6 @@ export default function QuestionDetail() {
             ))}
           </div>
         </div>
-
-        {/* Sponsored Section */}
-        {/* <div className="bg-white dark:bg-gray-800 rounded-xl  p-6">
-          <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-4 flex items-center gap-2">
-            <Zap className="w-5 h-5 text-yellow-500" />
-            Sponsored
-          </h3>
-          <a
-            href="https://freesvgicons.com"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="block p-4 bg-gray-50 dark:bg-gray-700 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-600 transition-colors"
-          >
-            <img
-              src="https://c1.tablecdn.com/iconbuddy/svgicons-favicon.png"
-              alt="Free SVG Icons"
-              className="w-auto h-auto mb-2"
-            />
-            <p className="text-sm text-gray-700 dark:text-gray-300">
-            Search Engine of 200k+ Open Source Free SVG Icons
-            </p>
-          </a>
-        </div> */}
       </div>
     </div>
   );
